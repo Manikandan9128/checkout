@@ -34,10 +34,10 @@ export default function Home() {
               backgroundClip: "text",
             }}
           >
-            Welcome to Webflow Cloud
+            Why don&apos;t skeletons fight each other?
           </h1>
           <Block tag="p" className="margin-bottom-24px">
-            This is a simple test using Basic components with enhanced styling.
+            They don&apos;t have the guts.
           </Block>
           <div style={{ marginTop: "12px" }}>
             <Link
