@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 
-const BASE = "http://13.203.81.21:8000";
+const api = (path: string, query?: string) =>
+  `/api/proxy?path=${encodeURIComponent(path)}${query ? `&query=${encodeURIComponent(query)}` : ""}`;
 
 type OnboardingType = "self" | "relation";
 
@@ -57,9 +58,9 @@ export default function Home() {
   // Fetch meta + languages + platforms on mount
   useEffect(() => {
     Promise.all([
-      fetch(`${BASE}/api/senior/create/meta/`).then((r) => r.json() as Promise<Record<string, unknown>>),
-      fetch(`${BASE}/api/administration/language-list/`).then((r) => r.json() as Promise<Record<string, unknown>>),
-      fetch(`${BASE}/api/administration/platform/`).then((r) => r.json() as Promise<Record<string, unknown>>),
+      fetch(api("/api/senior/create/meta/")).then((r) => r.json() as Promise<Record<string, unknown>>),
+      fetch(api("/api/administration/language-list/")).then((r) => r.json() as Promise<Record<string, unknown>>),
+      fetch(api("/api/administration/platform/")).then((r) => r.json() as Promise<Record<string, unknown>>),
     ]).then(([meta, lang, platform]) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const m = meta as any;
@@ -78,7 +79,7 @@ export default function Home() {
   useEffect(() => {
     if (!device) { setModels([]); setDeviceModel(""); return; }
     setDeviceModel("");
-    fetch(`${BASE}/api/administration/device-model-list/?platform=${device}`)
+    fetch(api("/api/administration/device-model-list/", `platform=${device}`))
       .then((r) => r.json() as Promise<Record<string, unknown>>)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((d: any) => setModels(d?.data?.results ?? []));
@@ -131,7 +132,7 @@ export default function Home() {
     };
 
     try {
-      const res = await fetch(`${BASE}/api/senior/create/`, {
+      const res = await fetch(api("/api/senior/create/"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
