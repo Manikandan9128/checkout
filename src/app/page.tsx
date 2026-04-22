@@ -12,10 +12,11 @@ interface Relative {
 }
 
 const COUNTRY_CODES: Record<string, string> = { IN: "+91", US: "+1", UK: "+44" };
+const BASE = "https://api-staging.sakshamsenior.com";
+
 function apiFetch(path: string, query?: string) {
-  const params = new URLSearchParams({ path });
-  if (query) params.set("query", query);
-  return fetch(`/api/proxy?${params.toString()}`).then((r) => r.json());
+  const q = query ? `?${query}` : "";
+  return fetch(`${BASE}${path}${q}`).then((r) => r.json());
 }
 
 export default function Home() {
@@ -108,7 +109,7 @@ export default function Home() {
       } : {}),
     };
     try {
-      const res = await fetch(`/api/proxy?path=${encodeURIComponent("/api/senior/create/")}`, {
+      const res = await fetch(`${BASE}/api/senior/create/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
