@@ -57,14 +57,20 @@ export default function Home() {
   // Fetch meta + languages + platforms on mount
   useEffect(() => {
     Promise.all([
-      fetch(`${BASE}/api/senior/create/meta/`).then((r) => r.json()),
-      fetch(`${BASE}/api/administration/language-list/`).then((r) => r.json()),
-      fetch(`${BASE}/api/administration/platform/`).then((r) => r.json()),
+      fetch(`${BASE}/api/senior/create/meta/`).then((r) => r.json() as Promise<Record<string, unknown>>),
+      fetch(`${BASE}/api/administration/language-list/`).then((r) => r.json() as Promise<Record<string, unknown>>),
+      fetch(`${BASE}/api/administration/platform/`).then((r) => r.json() as Promise<Record<string, unknown>>),
     ]).then(([meta, lang, platform]) => {
-      setGenderOptions(meta?.data?.meta?.gender ?? []);
-      setRelationshipOptions(meta?.data?.meta?.relationship ?? []);
-      setLanguages(lang?.data?.results ?? []);
-      setPlatforms(platform?.data?.results ?? []);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const m = meta as any;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const l = lang as any;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const p = platform as any;
+      setGenderOptions(m?.data?.meta?.gender ?? []);
+      setRelationshipOptions(m?.data?.meta?.relationship ?? []);
+      setLanguages(l?.data?.results ?? []);
+      setPlatforms(p?.data?.results ?? []);
     }).catch(() => setError("Failed to load form options. Check connection."));
   }, []);
 
@@ -73,8 +79,9 @@ export default function Home() {
     if (!device) { setModels([]); setDeviceModel(""); return; }
     setDeviceModel("");
     fetch(`${BASE}/api/administration/device-model-list/?platform=${device}`)
-      .then((r) => r.json())
-      .then((d) => setModels(d?.data?.results ?? []));
+      .then((r) => r.json() as Promise<Record<string, unknown>>)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .then((d: any) => setModels(d?.data?.results ?? []));
   }, [device]);
 
   const removeLang = (id: number | string) =>
@@ -129,7 +136,7 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = await res.json();
+      const data = await res.json() as Record<string, unknown>;
       if (!res.ok) {
         setError(JSON.stringify(data, null, 2));
       } else {
