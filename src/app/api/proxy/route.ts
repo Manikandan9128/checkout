@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BASE = "http://13.203.81.21:8000";
+const BASE = "https://api-staging.sakshamsenior.com";
 
 export async function GET(req: NextRequest) {
   const path = req.nextUrl.searchParams.get("path") ?? "";

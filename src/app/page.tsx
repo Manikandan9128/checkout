@@ -12,7 +12,7 @@ interface Relative {
 }
 
 const COUNTRY_CODES: Record<string, string> = { IN: "+91", US: "+1", UK: "+44" };
-const BASE = "http://13.203.81.21:8000";
+const BASE = "https://api-staging.sakshamsenior.com";
 
 function apiFetch(path: string, query?: string) {
   const q = query ? `?${query}` : "";
