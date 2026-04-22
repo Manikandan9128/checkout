@@ -7,9 +7,16 @@ export async function GET(req: NextRequest) {
   const query = req.nextUrl.searchParams.get("query") ?? "";
   const url = `${BASE}${path}${query ? `?${query}` : ""}`;
 
-  const res = await fetch(url, { headers: { "Content-Type": "application/json" } });
-  const data = await res.json();
-  return NextResponse.json(data, { status: res.status });
+  try {
+    const res = await fetch(url, {
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
+    });
+    const data = await res.json();
+    return NextResponse.json(data, { status: res.status });
+  } catch (e) {
+    return NextResponse.json({ error: String(e), url }, { status: 502 });
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -17,11 +24,16 @@ export async function POST(req: NextRequest) {
   const url = `${BASE}${path}`;
   const body = await req.text();
 
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body,
-  });
-  const data = await res.json();
-  return NextResponse.json(data, { status: res.status });
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+      cache: "no-store",
+    });
+    const data = await res.json();
+    return NextResponse.json(data, { status: res.status });
+  } catch (e) {
+    return NextResponse.json({ error: String(e), url }, { status: 502 });
+  }
 }
