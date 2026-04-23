@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -131,23 +132,46 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white font-sans">
       {/* Navbar */}
-      <nav className="border-b border-gray-100">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-400 font-bold text-purple-700">S</div>
-            <div className="text-sm font-semibold leading-tight text-purple-700"><div>Saksham</div><div>Senior</div></div>
+      <header>
+        <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" className="navbar w-nav">
+          <div className="padding-global">
+            <div className="container-large">
+              <div className="padding-section-small is-nav">
+                <div className="navbar-component">
+                  <a href="/" className="w-inline-block">
+                    <img loading="lazy" src="https://cdn.prod.website-files.com/69df9a13ad765128599ea0d4/69df9a13ad765128599ea0da_Saksham%20Senior%20Logo.svg" alt="Saksham Senior Logo" />
+                  </a>
+                  <nav role="navigation" className="navigation-content-holder w-nav-menu">
+                    <div className="navbar-link-holder">
+                      <a href="/" className="nav-links w-inline-block"><div>Home</div><div className="nav-border"></div></a>
+                      <a href="/about-us" className="nav-links w-inline-block"><div>About</div><div className="nav-border"></div></a>
+                      <a href="/plan" className="nav-links w-inline-block"><div>Plans</div><div className="nav-border"></div></a>
+                      <a href="/service" className="nav-links w-inline-block"><div>Services</div><div className="nav-border"></div></a>
+                      <div data-delay="0" data-hover="true" className="nav-megamenu-dropdown w-dropdown">
+                        <div className="nav-megamenu-toggle w-dropdown-toggle" role="button" tabIndex={0}><div>Learn</div><div className="megamenu-icon w-icon-dropdown-toggle"></div></div>
+                        <nav className="navbar-dropdown-navigation w-dropdown-list">
+                          <div className="navbar-dropdown-linkholder">
+                            <a href="/tutorials" className="navbar-linkblock is-radius-none w-inline-block" tabIndex={0}><div className="navbar-link-text">Tech Tutorials</div></a>
+                            <a href="/blogs" className="navbar-linkblock w-inline-block" tabIndex={0}><div className="navbar-link-text">Resources</div></a>
+                          </div>
+                        </nav>
+                      </div>
+                      <a href="/community" className="nav-links w-inline-block"><div>Community</div><div className="nav-border"></div></a>
+                    </div>
+                    <div className="navbar-rightholder">
+                      <div className="navbar-cta-wrap">
+                        <a href="#" className="navbar-btn w-inline-block"></a>
+                        <div className="navbar-cta-text" style={{color: "rgb(129, 67, 152)"}}>Contact Us</div>
+                      </div>
+                    </div>
+                  </nav>
+                  <div className="w-nav-button" role="button" tabIndex={0} aria-label="menu"><div className="w-icon-nav-menu"></div></div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="hidden items-center gap-8 text-sm font-medium text-gray-700 md:flex">
-            <a href="#" className="hover:text-purple-700">Home</a>
-            <a href="#" className="hover:text-purple-700">About</a>
-            <a href="#" className="text-purple-700">Plans</a>
-            <a href="#" className="hover:text-purple-700">Services</a>
-            <a href="#" className="hover:text-purple-700">Learn ▾</a>
-            <a href="#" className="hover:text-purple-700">Community</a>
-          </div>
-          <button className="rounded-full border border-purple-600 px-5 py-2 text-sm font-medium text-purple-700 hover:bg-purple-50">Contact Us</button>
         </div>
-      </nav>
+      </header>
 
       <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
         <button className="mb-4 flex items-center gap-2 text-sm text-gray-600 hover:text-purple-700">← Back to plans</button>
@@ -331,20 +355,59 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 border-t border-gray-100 bg-white">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 py-10 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
-          <div>
-            <div className="mb-3 flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-400 font-bold text-purple-700">S</div>
-              <div className="text-sm font-semibold leading-tight text-purple-700">Saksham<br />Senior</div>
+      <footer>
+        <div className="padding-global">
+          <div className="container-large">
+            <div className="padding-section-large">
+              <div className="footer-component">
+                <div className="footer-component-holder">
+                  <div className="footer-content-wrapper">
+                    <a href="/" className="w-inline-block">
+                      <img loading="lazy" src="https://cdn.prod.website-files.com/69df9a13ad765128599ea0d4/69df9a13ad765128599ea0da_Saksham%20Senior%20Logo.svg" alt="Saksham Senior Logo" />
+                    </a>
+                    <div className="padding-bottom is-medium"></div>
+                    <div className="footer-about-wrap"><div>Our mission is to help seniors become digitally independent and have a wholesome and safe online experience. Join our community on WhatsApp and YouTube and follow us on Instagram, Facebook and X.</div></div>
+                    <div className="padding-bottom is-xxsmall"></div>
+                    <div className="footer-socialwrap">
+                      <a href="#" className="social-icon w-inline-block"><div className="social-icon-code w-embed"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#yt)"><path d="M0 14C0 6.26801 6.26801 0 14 0C21.732 0 28 6.26801 28 14C28 21.732 21.732 28 14 28C6.26801 28 0 21.732 0 14Z" fill="#FF0000"/><path d="M21.1545 10.5413C20.9827 9.88155 20.4767 9.36197 19.8342 9.18566C18.6697 8.86523 13.9998 8.86523 13.9998 8.86523C13.9998 8.86523 9.33005 8.86523 8.16552 9.18566C7.52296 9.36197 7.01692 9.88155 6.84518 10.5413C6.5332 11.737 6.5332 14.2319 6.5332 14.2319C6.5332 14.2319 6.5332 16.7268 6.84518 17.9225C7.01692 18.5823 7.52296 19.1019 8.16552 19.2783C9.33005 19.5986 13.9998 19.5986 13.9998 19.5986C13.9998 19.5986 18.6697 19.5986 19.8342 19.2783C20.4767 19.1019 20.9827 18.5823 21.1545 17.9225C21.4666 16.7268 21.4666 14.2319 21.4666 14.2319C21.4666 14.2319 21.4666 11.737 21.1545 10.5413Z" fill="white"/><path d="M12.5996 16.8014V12.1348L16.333 14.4682L12.5996 16.8014Z" fill="#FF0000"/></g><defs><clipPath id="yt"><rect width="28" height="28" fill="white"/></clipPath></defs></svg></div></a>
+                      <a href="#" className="social-icon w-inline-block"><div className="social-icon-code w-embed"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#ig)"><path d="M0 14C0 6.26801 6.26801 0 14 0C21.732 0 28 6.26801 28 14C28 21.732 21.732 28 14 28C6.26801 28 0 21.732 0 14Z" fill="#C32AA3"/><path d="M13.9989 6.53125C16.0268 6.53126 16.2804 6.5403 17.0768 6.57654C17.8716 6.61295 18.4149 6.73883 18.8908 6.92347C19.3822 7.11398 19.7976 7.3688 20.2128 7.78393C20.6281 8.19894 20.8836 8.61564 21.0749 9.10669C21.2585 9.58147 21.3837 10.1242 21.421 10.9191C21.4568 11.7155 21.4663 11.9701 21.4663 13.9978C21.4663 16.0257 21.4568 16.2801 21.421 17.0765C21.3837 17.8707 21.2584 18.4134 21.0749 18.8881C20.8836 19.379 20.6281 19.7958 20.2128 20.2108C19.7979 20.6262 19.3818 20.8823 18.8908 21.073C18.4159 21.2576 17.8724 21.3836 17.0777 21.42C16.2813 21.4562 16.0275 21.4643 13.9998 21.4643C11.972 21.4643 11.7175 21.4562 10.921 21.42C10.1264 21.3836 9.58363 21.2576 9.10868 21.073C8.61791 20.8823 8.20157 20.6261 7.78674 20.2108C7.37156 19.7958 7.11628 19.3792 6.92541 18.8881C6.74094 18.4134 6.61504 17.8705 6.57848 17.0757C6.54241 16.2795 6.5332 16.0254 6.5332 13.9978C6.5332 11.9701 6.54286 11.7155 6.57848 10.9191C6.61426 10.1245 6.7403 9.58164 6.92541 9.10669C7.11674 8.61585 7.37147 8.1989 7.78674 7.78393C8.2017 7.36885 8.61849 7.11416 9.10947 6.92347C9.58424 6.73882 10.127 6.61294 10.9219 6.57654C11.718 6.54031 11.9726 6.53126 13.9989 6.53125Z" fill="white"/></g><defs><clipPath id="ig"><rect width="28" height="28" fill="white"/></clipPath></defs></svg></div></a>
+                      <a href="#" className="social-icon w-inline-block"><div className="social-icon-code w-embed"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#tw)"><path d="M28 14C28 6.26801 21.732 0 14 0C6.26801 0 0 6.26801 0 14C0 21.732 6.26801 28 14 28C21.732 28 28 21.732 28 14Z" fill="black"/><path d="M18.2117 7H20.2243L15.8274 12.5596L21 20.125H16.9499L13.7777 15.5367L10.148 20.125H8.13417L12.8371 14.1783L7.875 7H12.0279L14.8953 11.194L18.2117 7ZM17.5053 18.7923H18.6205L11.422 8.2627H10.2253L17.5053 18.7923Z" fill="white"/></g><defs><clipPath id="tw"><rect width="28" height="28" fill="white"/></clipPath></defs></svg></div></a>
+                      <a href="#" className="social-icon w-inline-block"><div className="social-icon-code w-embed"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#fb)"><path d="M0 14C0 6.26801 6.26801 0 14 0C21.732 0 28 6.26801 28 14C28 21.732 21.732 28 14 28C6.26801 28 0 21.732 0 14Z" fill="#3B5998"/><path d="M15.4603 22.2317V14.615H17.5628L17.8415 11.9902H15.4603L15.4638 10.6765C15.4638 9.99189 15.5289 9.62509 16.5122 9.62509H17.8266V7H15.7237C13.1978 7 12.3089 8.2733 12.3089 10.4146V11.9905H10.7344V14.6152H12.3089V22.2317H15.4603Z" fill="white"/></g><defs><clipPath id="fb"><rect width="28" height="28" fill="white"/></clipPath></defs></svg></div></a>
+                      <a href="#" className="social-icon w-inline-block"><div className="social-icon-code w-embed"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#wa)"><path d="M0 14C0 6.26801 6.26801 0 14 0C21.732 0 28 6.26801 28 14C28 21.732 21.732 28 14 28C6.26801 28 0 21.732 0 14Z" fill="url(#wag)"/><path fillRule="evenodd" clipRule="evenodd" d="M13.998 5.9375C9.54527 5.9375 5.93556 9.54721 5.93556 14C5.93556 15.1107 6.16047 16.1703 6.56775 17.1346C6.67459 17.3875 6.74661 17.5585 6.79473 17.6899C6.84379 17.8239 6.85068 17.8723 6.85155 17.8848C6.85642 17.9552 6.8386 18.051 6.71699 18.5056L5.95467 21.3546C5.90275 21.5487 5.95827 21.7557 6.10032 21.8977C6.24237 22.0398 6.44939 22.0953 6.64345 22.0434L9.49253 21.2811C9.94705 21.1594 10.0428 21.1417 10.1132 21.1465C10.1257 21.1474 10.1742 21.1543 10.3082 21.2033C10.4396 21.2515 10.6105 21.3235 10.8635 21.4303C11.8278 21.8376 12.8874 22.0625 13.998 22.0625C18.4509 22.0625 22.0605 18.4528 22.0605 14C22.0605 9.54721 18.4509 5.9375 13.998 5.9375Z" fill="white"/></g><defs><linearGradient id="wag" x1="14" y1="0" x2="14" y2="28" gradientUnits="userSpaceOnUse"><stop stopColor="#59D064"/><stop offset="1" stopColor="#2DB640"/></linearGradient><clipPath id="wa"><rect width="28" height="28" fill="white"/></clipPath></defs></svg></div></a>
+                    </div>
+                  </div>
+                  <div className="footer-link-wrap">
+                    <div>
+                      <div className="footer-link-header"><div>Website</div></div>
+                      <div className="footer-link-holder">
+                        <a href="/" className="footer-link w-inline-block"><div>Home</div></a>
+                        <a href="/about-us" className="footer-link w-inline-block"><div>About us</div></a>
+                        <a href="/plan" className="footer-link w-inline-block"><div>Plan</div></a>
+                        <a href="/service" className="footer-link w-inline-block"><div>Services</div></a>
+                        <a href="#" className="footer-link w-inline-block"><div>Learn</div></a>
+                        <a href="/community" className="footer-link w-inline-block"><div>Community</div></a>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="footer-link-header"><div>Help</div></div>
+                      <div className="footer-link-holder"><a href="/contact-us" className="footer-link w-inline-block"><div>Contact us</div></a></div>
+                    </div>
+                    <div>
+                      <div className="footer-link-header"><div>Legal</div></div>
+                      <div className="footer-link-holder">
+                        <a href="/terms-and-condition" className="footer-link w-inline-block"><div>Terms &amp; Conditions</div></a>
+                        <a href="/privacy-policy" className="footer-link w-inline-block"><div>Privacy Policy</div></a>
+                        <a href="/disclaimer" className="footer-link w-inline-block"><div>Disclaimer</div></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="footer-border"></div>
+                <div className="footer-copyright-holder"><div>© 2026 Saksham Senior. All rights reserved.</div></div>
+              </div>
             </div>
-            <p className="text-xs leading-relaxed text-gray-600">Our mission is to help seniors become digitally independent and have a wholesome and safe online experience.</p>
           </div>
-          <div><div className="mb-3 text-sm font-semibold text-gray-900">Website</div><ul className="space-y-2 text-sm text-gray-600"><li>Home</li><li>About us</li><li>Plan</li><li>Services</li><li>Learn</li><li>Community</li></ul></div>
-          <div><div className="mb-3 text-sm font-semibold text-gray-900">Help</div><ul className="space-y-2 text-sm text-gray-600"><li>Contact us</li></ul></div>
-          <div><div className="mb-3 text-sm font-semibold text-gray-900">Legal</div><ul className="space-y-2 text-sm text-gray-600"><li>Terms &amp; Conditions</li><li>Privacy Policy</li><li>Disclaimer</li></ul></div>
         </div>
-        <div className="border-t border-gray-100 py-4 text-center text-xs text-gray-500">© 2026 Saksham Senior. All rights reserved.</div>
       </footer>
     </div>
   );
