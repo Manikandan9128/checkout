@@ -5,7 +5,9 @@ import { useState, useEffect } from "react";
 
 interface Option { id: number | string; identity: string; }
 interface RelativeEntry {
-  name: string;
+  first_name: string;
+  last_name: string;
+  email: string;
   phone: string;
   countryCode: string;
   relationship: string;
@@ -19,7 +21,7 @@ function apiFetch(path: string, query?: string) {
   return fetch(`${BASE}${path}${q}`).then((r) => r.json());
 }
 
-const emptyRelative = (): RelativeEntry => ({ name: "", phone: "", countryCode: "IN", relationship: "" });
+const emptyRelative = (): RelativeEntry => ({ first_name: "", last_name: "", email: "", phone: "", countryCode: "IN", relationship: "" });
 
 const inp = "w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200 transition";
 const lbl = "mb-1.5 block text-sm font-medium text-gray-800";
@@ -113,8 +115,9 @@ export default function Home() {
       updates,
       ...(onboardingType === "relation" ? {
         relatives: relatives.map((r) => ({
-          first_name: r.name.split(" ")[0] ?? r.name,
-          last_name: r.name.split(" ").slice(1).join(" ") || undefined,
+          first_name: r.first_name,
+          last_name: r.last_name,
+          email: r.email,
           phone_number: `${COUNTRY_CODES[r.countryCode]}${r.phone}`,
           relationship: r.relationship,
         })),
@@ -229,10 +232,23 @@ export default function Home() {
                     <span className="text-sm font-semibold text-purple-700">Relative Information</span>
                   </div>
 
+                  <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className={lbl}>First Name</label>
+                      <input type="text" value={rel.first_name} onChange={(e) => updateRelative(i, "first_name", e.target.value)}
+                        placeholder="First name" className={inp} required />
+                    </div>
+                    <div>
+                      <label className={lbl}>Last Name</label>
+                      <input type="text" value={rel.last_name} onChange={(e) => updateRelative(i, "last_name", e.target.value)}
+                        placeholder="Last name" className={inp} required />
+                    </div>
+                  </div>
+
                   <div className="mb-4">
-                    <label className={lbl}>Relative Name</label>
-                    <input type="text" value={rel.name} onChange={(e) => updateRelative(i, "name", e.target.value)}
-                      placeholder="Your name" className={inp} required />
+                    <label className={lbl}>Email</label>
+                    <input type="email" value={rel.email} onChange={(e) => updateRelative(i, "email", e.target.value)}
+                      placeholder="you@company.com" className={inp} required />
                   </div>
 
                   <div className="mb-4">
