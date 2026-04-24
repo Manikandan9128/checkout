@@ -305,7 +305,7 @@ export default function Home() {
                         {Object.keys(COUNTRY_CODES).map((cc) => <option key={cc} value={cc}>{cc} {COUNTRY_CODES[cc]}</option>)}
                       </select>
                       <input type="tel" value={rel.phone} onChange={(e) => updateRelative(i, "phone", e.target.value)}
-                        placeholder="+1 (555) 000-0000"
+                        placeholder="Enter the number"
                         className="w-full rounded-r-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
                         required />
                     </div>
@@ -385,7 +385,7 @@ export default function Home() {
                 <select value={countryCode} onChange={(e) => setCountryCode(e.target.value)} className="rounded-l-lg border-0 bg-white px-3 py-3 text-sm focus:outline-none">
                   {Object.keys(COUNTRY_CODES).map((cc) => <option key={cc} value={cc}>{cc} {COUNTRY_CODES[cc]}</option>)}
                 </select>
-                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+1 (555) 000-0000"
+                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Enter the number"
                   className="w-full rounded-r-lg border-0 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:outline-none" required />
               </div>
               {fieldErr("phone_number")}

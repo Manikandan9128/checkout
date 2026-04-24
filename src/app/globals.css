@@ -31,14 +31,40 @@ body {
 }
 
 .nav-links .nav-border {
-  width: 0%;
+  width: 0% !important;
   height: 2px;
   background-color: currentColor;
   transition: width 0.3s ease;
 }
 
 .nav-links:hover .nav-border {
-  width: 100%;
+  width: 100% !important;
+}
+
+/* Contact Us hover-state-wrap */
+.navbar-cta-wrap .hover-state-wrap {
+  width: 0% !important;
+  transition: width 0.3s ease;
+}
+
+.navbar-cta-wrap:hover .hover-state-wrap {
+  width: 100% !important;
+}
+
+/* Learn dropdown — show on hover */
+.nav-megamenu-dropdown.w-dropdown .navbar-dropdown-navigation.w-dropdown-list {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.nav-megamenu-dropdown.w-dropdown:hover .navbar-dropdown-navigation.w-dropdown-list {
+  display: block;
+  opacity: 1;
+}
+
+.nav-megamenu-dropdown.w-dropdown .w-dropdown-toggle {
+  cursor: pointer;
 }
 
 /* Mobile nav hamburger → X toggle */
