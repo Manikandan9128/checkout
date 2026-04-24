@@ -184,11 +184,12 @@ export default function Home() {
                       <a data-w-id="cc978fc5-03ab-9988-1cf7-594dab22b9e5" href="/about-us" className="nav-links w-inline-block"><div>About</div><div className="nav-border" style={{width:"0%"}}></div></a>
                       <a data-w-id="463413de-4fbd-327b-d381-9a82274f5307" href="/plan" className="nav-links w-inline-block"><div>Plans</div><div className="nav-border" style={{width:"0%"}}></div></a>
                       <a data-w-id="ed52862c-f02a-39c5-0ad9-6cf59bb4e4d0" href="/service" className="nav-links w-inline-block"><div>Services</div><div className="nav-border" style={{width:"0%"}}></div></a>
-                      <div style={{position:"relative"}} onMouseEnter={() => setLearnHover(true)} onMouseLeave={() => setLearnHover(false)}>
-                        <div style={{display:"flex", alignItems:"center", gap:"6px", cursor:"pointer", padding:"8px 0"}}>
+                      <div className="nav-links w-inline-block" style={{position:"relative", cursor:"pointer"}} onMouseEnter={() => setLearnHover(true)} onMouseLeave={() => setLearnHover(false)}>
+                        <div style={{display:"flex", alignItems:"center", gap:"6px"}}>
                           <div>Learn</div>
                           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                         </div>
+                        <div className="nav-border" style={{width:"0%"}}></div>
                         {learnHover && (
                           <div style={{position:"absolute", top:"100%", left:0, zIndex:9999, minWidth:"260px", borderRadius:"12px", overflow:"hidden", boxShadow:"0 8px 32px rgba(0,0,0,0.15)"}}>
                             <a href="/tutorials" onMouseEnter={() => setTechHover(true)} onMouseLeave={() => setTechHover(false)}
@@ -461,10 +462,10 @@ export default function Home() {
           </div>
 
           {/* Checkboxes */}
-          <div className="mb-6 space-y-4">
-            <label className="flex w-fit mx-auto items-center gap-3 text-sm font-bold text-gray-800"><input type="checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} className="h-5 w-5 shrink-0 rounded border-gray-300 accent-purple-600" />Agree to terms and conditions</label>
-            <label className="flex w-fit mx-auto items-center gap-3 text-sm text-gray-700"><input type="checkbox" checked={updates} onChange={(e) => setUpdates(e.target.checked)} className="h-5 w-5 shrink-0 rounded border-gray-300 accent-purple-600" />Allow us to send periodic emails and updates</label>
-            <label className="flex w-fit mx-auto items-center gap-3 text-sm text-gray-700"><input type="checkbox" checked={whatsappMsg} onChange={(e) => setWhatsappMsg(e.target.checked)} className="h-5 w-5 shrink-0 rounded border-gray-300 accent-purple-600" />Agree to get WhatsApp messages from us</label>
+          <div className="mb-6 space-y-4" style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+            <label style={{display:"flex", alignItems:"center", gap:"12px", width:"fit-content"}} className="text-sm font-bold text-gray-800"><input type="checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} className="h-5 w-5 shrink-0 rounded border-gray-300 accent-purple-600" />Agree to terms and conditions</label>
+            <label style={{display:"flex", alignItems:"center", gap:"12px", width:"fit-content"}} className="text-sm text-gray-700"><input type="checkbox" checked={updates} onChange={(e) => setUpdates(e.target.checked)} className="h-5 w-5 shrink-0 rounded border-gray-300 accent-purple-600" />Allow us to send periodic emails and updates</label>
+            <label style={{display:"flex", alignItems:"center", gap:"12px", width:"fit-content"}} className="text-sm text-gray-700"><input type="checkbox" checked={whatsappMsg} onChange={(e) => setWhatsappMsg(e.target.checked)} className="h-5 w-5 shrink-0 rounded border-gray-300 accent-purple-600" />Agree to get WhatsApp messages from us</label>
           </div>
 
           {formError && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{formError}</div>}
