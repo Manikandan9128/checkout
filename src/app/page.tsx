@@ -59,6 +59,19 @@ export default function Home() {
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
+
+  const fieldErr = (key: string) =>
+    fieldErrors[key]?.length ? (
+      <p className="mt-1 text-xs text-red-600">{fieldErrors[key][0]}</p>
+    ) : null;
+
+  const inpCls = (key: string) =>
+    `w-full rounded-lg border px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 transition bg-white ${
+      fieldErrors[key]?.length
+        ? "border-red-400 focus:border-red-400 focus:ring-red-100"
+        : "border-gray-300 focus:border-purple-500 focus:ring-purple-200"
+    }`;
 
   useEffect(() => {
     Promise.all([
@@ -96,6 +109,7 @@ export default function Home() {
     e.preventDefault();
     if (!agreeTerms) { setFormError("Please agree to terms and conditions."); return; }
     setFormError("");
+    setFieldErrors({});
     setSubmitting(true);
     const payload = {
       first_name: firstName,
@@ -131,8 +145,15 @@ export default function Home() {
       });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const data: any = await res.json();
-      if (!res.ok) setFormError(JSON.stringify(data, null, 2));
-      else alert("Subscription created! Proceeding to payment...");
+      if (!res.ok) {
+        if (data?.data && typeof data.data === "object") {
+          setFieldErrors(data.data);
+        } else {
+          setFormError("Something went wrong. Please try again.");
+        }
+      } else {
+        alert("Subscription created! Proceeding to payment...");
+      }
     } catch {
       setFormError("Network error. Please try again.");
     } finally {
@@ -144,7 +165,7 @@ export default function Home() {
     <div className="min-h-screen bg-white font-sans">
       {/* Navbar */}
       <header>
-        <div role="banner" className="navbar w-nav">
+        <div data-w-id="5b56ab36-260c-0462-ceea-c6b8266c509e" data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" className="navbar w-nav">
           <div className="padding-global">
             <div className="container-large">
               <div className="padding-section-small is-nav">
@@ -154,33 +175,58 @@ export default function Home() {
                   </a>
                   <nav role="navigation" className="navigation-content-holder w-nav-menu">
                     <div className="navbar-link-holder">
-                      <a href="/" className="nav-links w-inline-block"><div>Home</div><div className="nav-border"></div></a>
-                      <a href="/about-us" className="nav-links w-inline-block"><div>About</div><div className="nav-border"></div></a>
-                      <a href="/plan" className="nav-links w-inline-block"><div>Plans</div><div className="nav-border"></div></a>
-                      <a href="/service" className="nav-links w-inline-block"><div>Services</div><div className="nav-border"></div></a>
+                      <a data-w-id="8243afb1-9867-78e6-d41a-72f9a1832200" href="/" className="nav-links w-inline-block"><div>Home</div><div className="nav-border" style={{width:"0%"}}></div></a>
+                      <a data-w-id="cc978fc5-03ab-9988-1cf7-594dab22b9e5" href="/about-us" className="nav-links w-inline-block"><div>About</div><div className="nav-border" style={{width:"0%"}}></div></a>
+                      <a data-w-id="463413de-4fbd-327b-d381-9a82274f5307" href="/plan" className="nav-links w-inline-block"><div>Plans</div><div className="nav-border" style={{width:"0%"}}></div></a>
+                      <a data-w-id="ed52862c-f02a-39c5-0ad9-6cf59bb4e4d0" href="/service" className="nav-links w-inline-block"><div>Services</div><div className="nav-border" style={{width:"0%"}}></div></a>
                       <div data-delay="0" data-hover="true" className="nav-megamenu-dropdown w-dropdown">
-                        <div className="nav-megamenu-toggle w-dropdown-toggle" role="button" tabIndex={0}><div>Learn</div><div className="megamenu-icon w-icon-dropdown-toggle"></div></div>
-                        <nav className="navbar-dropdown-navigation w-dropdown-list">
+                        <div className="nav-megamenu-toggle w-dropdown-toggle" id="w-dropdown-toggle-0" aria-controls="w-dropdown-list-0" aria-haspopup="menu" aria-expanded="false" role="button" tabIndex={0}>
+                          <div>Learn</div>
+                          <div className="megamenu-icon w-icon-dropdown-toggle" aria-hidden="true"></div>
+                        </div>
+                        <nav className="navbar-dropdown-navigation w-dropdown-list" id="w-dropdown-list-0" aria-labelledby="w-dropdown-toggle-0">
                           <div className="navbar-dropdown-linkholder">
-                            <a href="/tutorials" className="navbar-linkblock is-radius-none w-inline-block" tabIndex={0}><div className="navbar-link-text">Tech Tutorials</div></a>
-                            <a href="/blogs" className="navbar-linkblock w-inline-block" tabIndex={0}><div className="navbar-link-text">Resources</div></a>
+                            <a href="/tutorials" className="navbar-linkblock is-radius-none w-inline-block" tabIndex={0} style={{color:"rgb(129,67,152)",backgroundColor:"rgb(255,255,255)"}}>
+                              <div>
+                                <div className="navbar-link-icon w-embed">
+                                  <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M4 2.25C2.48122 2.25 1.25 3.48122 1.25 5V17C1.25 18.5188 2.48122 19.75 4 19.75H14.9844C13.4859 18.8947 13.6983 16.4072 15.621 16.0142C16.3225 15.8708 16.8708 15.3225 17.0142 14.621C17.456 12.4596 20.5441 12.4598 20.9858 14.621C21.1292 15.3225 21.6775 15.8708 22.379 16.0142C22.5107 16.0411 22.6344 16.0778 22.75 16.1232V5C22.75 3.48122 21.5188 2.25 20 2.25H4ZM9 7.78719V14.2128C9 14.6476 9.35244 15 9.78719 15C9.92656 15 10.0634 14.963 10.1838 14.8928L15.5681 11.7519C15.8355 11.5959 16 11.3096 16 11C16 10.6904 15.8356 10.4041 15.5681 10.2481L10.1838 7.10723C10.0634 7.037 9.92656 7 9.78719 7C9.35244 7 9 7.35243 9 7.78719ZM19.7611 14.8713C19.5918 14.0429 18.4082 14.0429 18.2389 14.8713C17.9952 16.0635 17.0635 16.9952 15.8713 17.2389C15.0429 17.4082 15.0429 18.5918 15.8713 18.7611C17.0635 19.0048 17.9952 19.9365 18.2389 21.1287C18.4082 21.9571 19.5918 21.9571 19.7611 21.1287C20.0048 19.9365 20.9365 19.0048 22.1287 18.7611C22.9571 18.5918 22.9571 17.4082 22.1287 17.2389C20.9365 16.9952 20.0048 16.0635 19.7611 14.8713Z" fill="currentcolor"></path></svg>
+                                </div>
+                              </div>
+                              <div className="navbar-link-text" style={{color:"rgb(58,58,58)"}}>Tech Tutorials</div>
+                            </a>
+                            <a href="/blogs" className="navbar-linkblock w-inline-block" tabIndex={0} style={{color:"rgb(129,67,152)",backgroundColor:"rgb(255,255,255)"}}>
+                              <div>
+                                <div className="navbar-link-icon w-embed">
+                                  <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M16.989 1.40314C15.8497 1.24997 14.3941 1.24998 12.5564 1.25H11.4436C9.60587 1.24998 8.15025 1.24997 7.01105 1.40313C5.83863 1.56076 4.88969 1.89287 4.14133 2.64123C3.39297 3.38958 3.06085 4.33852 2.90321 5.51094C2.75004 6.65014 2.75004 8.10576 2.75004 9.94351L2.75 14.0563C2.74997 15.894 2.74995 17.3498 2.9031 18.489C3.06072 19.6614 3.39283 20.6104 4.1412 21.3587C4.88956 22.1071 5.83851 22.4392 7.01094 22.5969C8.15016 22.75 9.60579 22.75 11.4435 22.75H12.5563C14.394 22.75 15.8497 22.75 16.989 22.5969C18.1614 22.4392 19.1103 22.1071 19.8587 21.3588C20.6071 20.6104 20.9392 19.6614 21.0968 18.489C21.25 17.3498 21.2499 15.8942 21.2499 14.0565V9.94359C21.2499 8.10585 21.25 6.65018 21.0968 5.51098C20.9392 4.33856 20.6071 3.38961 19.8587 2.64124C19.1103 1.89288 18.1614 1.56076 16.989 1.40314ZM8 6C7.44772 6 7 6.44772 7 7C7 7.55229 7.44772 8 8 8H16C16.5523 8 17 7.55229 17 7C17 6.44772 16.5523 6 16 6H8ZM8 11C7.44772 11 7 11.4477 7 12C7 12.5523 7.44772 13 8 13H16C16.5523 13 17 12.5523 17 12C17 11.4477 16.5523 11 16 11H8ZM8 16C7.44772 16 7 16.4477 7 17C7 17.5523 7.44772 18 8 18H12C12.5523 18 13 17.5523 13 17C13 16.4477 12.5523 16 12 16H8Z" fill="currentcolor"></path></svg>
+                                </div>
+                              </div>
+                              <div className="navbar-link-text" style={{color:"rgb(58,58,58)"}}>Resources</div>
+                            </a>
                           </div>
                         </nav>
                       </div>
-                      <a href="/community" className="nav-links w-inline-block"><div>Community</div><div className="nav-border"></div></a>
+                      <a href="/community" className="nav-links w-inline-block"><div>Community</div><div className="nav-border" style={{width:"0%"}}></div></a>
                     </div>
                     <div className="navbar-rightholder">
                       <div className="navbar-cta-wrap">
-                        <a href="#" className="navbar-btn w-inline-block"></a>
-                        <div className="navbar-cta-text" style={{ color: "rgb(129, 67, 152)" }}>Contact Us</div>
+                        <a data-w-id="5b56ab36-260c-0462-ceea-c6b8266c50bf" href="#" className="navbar-btn w-inline-block"></a>
+                        <div className="hover-state-wrap" style={{width:"0%"}}></div>
+                        <div className="navbar-cta-text" style={{color:"rgb(129, 67, 152)"}}>Contact Us</div>
                       </div>
                     </div>
                   </nav>
-                  <div className="w-nav-button" role="button" tabIndex={0} aria-label="menu"><div className="w-icon-nav-menu"></div></div>
+                  <div className="menu-btn w-nav-button" role="button" tabIndex={0} aria-label="menu" aria-controls="w-nav-overlay-0" aria-haspopup="menu" aria-expanded="false">
+                    <div className="menu-icon1">
+                      <div className="menu-icon1_line-top-4"></div>
+                      <div className="menu-icon1_line-middle-3"><div className="menu-icon_line-middle-inner"></div></div>
+                      <div className="menu-icon1_line-bottom-3"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div className="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0"></div>
         </div>
       </header>
 
@@ -303,42 +349,46 @@ export default function Home() {
 
             {/* Name */}
             <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <div><label className={lbl}>First Name</label><input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First name" className={inp} required /></div>
-              <div><label className={lbl}>Last Name</label><input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last name" className={inp} required /></div>
-              <div><label className={lbl}>Initial</label><input type="text" value={initial} onChange={(e) => setInitial(e.target.value)} placeholder="Initial" maxLength={3} className={inp} /></div>
+              <div><label className={lbl}>First Name</label><input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First name" className={inpCls("first_name")} required />{fieldErr("first_name")}</div>
+              <div><label className={lbl}>Last Name</label><input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last name" className={inpCls("last_name")} required />{fieldErr("last_name")}</div>
+              <div><label className={lbl}>Initial</label><input type="text" value={initial} onChange={(e) => setInitial(e.target.value)} placeholder="Initial" maxLength={3} className={inpCls("initial")} />{fieldErr("initial")}</div>
             </div>
 
             {/* DOB */}
             <div className="mb-4">
               <label className={lbl}>Date Of Birth</label>
-              <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} className={inp} required />
+              <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} className={inpCls("dob")} required />
+              {fieldErr("dob")}
             </div>
 
             {/* Gender */}
             <div className="mb-4">
               <label className={lbl}>Gender</label>
-              <select value={gender} onChange={(e) => setGender(e.target.value)} className={inp} required>
+              <select value={gender} onChange={(e) => setGender(e.target.value)} className={inpCls("gender")} required>
                 <option value="">Select</option>
                 {genderOptions.map((g) => <option key={g.id} value={g.id}>{g.identity}</option>)}
               </select>
+              {fieldErr("gender")}
             </div>
 
             {/* Email */}
             <div className="mb-4">
               <label className={lbl}>Email (Optional)</label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" className={inp} />
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" className={inpCls("email")} />
+              {fieldErr("email")}
             </div>
 
             {/* Phone */}
             <div className="mb-4">
               <label className={lbl}>Phone number</label>
-              <div className="flex">
-                <select value={countryCode} onChange={(e) => setCountryCode(e.target.value)} className="rounded-l-lg border border-r-0 border-gray-300 bg-white px-3 py-3 text-sm focus:outline-none">
+              <div className={`flex rounded-lg border ${fieldErrors["phone_number"]?.length ? "border-red-400" : "border-gray-300"}`}>
+                <select value={countryCode} onChange={(e) => setCountryCode(e.target.value)} className="rounded-l-lg border-0 bg-white px-3 py-3 text-sm focus:outline-none">
                   {Object.keys(COUNTRY_CODES).map((cc) => <option key={cc} value={cc}>{cc} {COUNTRY_CODES[cc]}</option>)}
                 </select>
                 <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+1 (555) 000-0000"
-                  className="w-full rounded-r-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200" required />
+                  className="w-full rounded-r-lg border-0 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:outline-none" required />
               </div>
+              {fieldErr("phone_number")}
             </div>
 
             {/* Languages */}
@@ -361,44 +411,49 @@ export default function Home() {
                   ))}
                 </div>
               )}
+              {fieldErr("language")}
             </div>
 
             {/* Device */}
             <div className="mb-4">
               <label className={lbl}>Device</label>
-              <select value={device} onChange={(e) => setDevice(e.target.value)} className={inp} required>
+              <select value={device} onChange={(e) => setDevice(e.target.value)} className={inpCls("device")} required>
                 <option value="">Select</option>
                 {platforms.map((p) => <option key={p.id} value={p.id}>{p.identity}</option>)}
               </select>
+              {fieldErr("device")}
             </div>
 
             {/* Model */}
             <div className="mb-4">
               <label className={lbl}>Model</label>
-              <select value={deviceModel} onChange={(e) => setDeviceModel(e.target.value)} className={inp} disabled={!device} required>
+              <select value={deviceModel} onChange={(e) => setDeviceModel(e.target.value)} className={inpCls("device_model")} disabled={!device} required>
                 <option value="">Select</option>
                 {models.map((m) => <option key={m.id} value={m.id}>{m.identity}</option>)}
               </select>
+              {fieldErr("device_model")}
             </div>
 
             {/* Zoom */}
             <div className="mb-4">
               <label className={lbl}>Do you know how to join a Zoom call?</label>
-              <select value={zoomCall} onChange={(e) => setZoomCall(e.target.value)} className={inp} required>
+              <select value={zoomCall} onChange={(e) => setZoomCall(e.target.value)} className={inpCls("zoom_call")} required>
                 <option value="">Select</option>
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
               </select>
+              {fieldErr("zoom_call")}
             </div>
 
             {/* WhatsApp */}
             <div>
               <label className={lbl}>Do you know how to take calls on WhatsApp?</label>
-              <select value={whatsappCall} onChange={(e) => setWhatsappCall(e.target.value)} className={inp} required>
+              <select value={whatsappCall} onChange={(e) => setWhatsappCall(e.target.value)} className={inpCls("whatsapp_call")} required>
                 <option value="">Select</option>
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
               </select>
+              {fieldErr("whatsapp_call")}
             </div>
           </div>
 
@@ -409,7 +464,7 @@ export default function Home() {
             <label className="flex items-center gap-2 text-sm text-gray-700"><input type="checkbox" checked={whatsappMsg} onChange={(e) => setWhatsappMsg(e.target.checked)} className="h-4 w-4 rounded border-gray-300 accent-purple-600" />Agree to get WhatsApp messages from us</label>
           </div>
 
-          {formError && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 whitespace-pre-wrap">{formError}</div>}
+          {formError && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{formError}</div>}
 
           <button type="submit" disabled={submitting}
             className="w-full rounded-full bg-purple-600 px-6 py-4 text-base font-semibold text-white shadow-md transition hover:bg-purple-700 active:scale-[0.99] disabled:opacity-60">

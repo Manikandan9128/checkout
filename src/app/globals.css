@@ -40,3 +40,27 @@ body {
 .nav-links:hover .nav-border {
   width: 100%;
 }
+
+/* Mobile nav hamburger → X toggle */
+.menu-btn .menu-icon1_line-top-4,
+.menu-btn .menu-icon1_line-middle-3,
+.menu-btn .menu-icon1_line-bottom-3 {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #333;
+  margin: 5px 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.menu-btn[aria-expanded="true"] .menu-icon1_line-top-4 {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menu-btn[aria-expanded="true"] .menu-icon1_line-middle-3 {
+  opacity: 0;
+}
+
+.menu-btn[aria-expanded="true"] .menu-icon1_line-bottom-3 {
+  transform: translateY(-7px) rotate(-45deg);
+}

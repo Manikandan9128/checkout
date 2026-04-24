@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { DevLinkProvider } from "@/devlink/DevLinkProvider";
 
@@ -37,6 +38,8 @@ export default function RootLayout({
         <DevLinkProvider>
           {children}
         </DevLinkProvider>
+        <Script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossOrigin="anonymous" strategy="beforeInteractive" />
+        <Script src="https://cdn.prod.website-files.com/69df9a13ad765128599ea0d4/js/saksham-senior-staging.webflow.5c6319e71.js" crossOrigin="anonymous" strategy="afterInteractive" />
       </body>
     </html>
   );
