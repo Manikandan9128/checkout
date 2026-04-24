@@ -61,6 +61,7 @@ export default function Home() {
   const [formError, setFormError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [menuOpen, setMenuOpen] = useState(false);
+  const [ctaHover, setCtaHover] = useState(false);
 
   const fieldErr = (key: string) =>
     fieldErrors[key]?.length ? (
@@ -209,10 +210,10 @@ export default function Home() {
                       <a href="/community" className="nav-links w-inline-block"><div>Community</div><div className="nav-border" style={{width:"0%"}}></div></a>
                     </div>
                     <div className="navbar-rightholder">
-                      <div className="navbar-cta-wrap">
+                      <div className="navbar-cta-wrap" onMouseEnter={() => setCtaHover(true)} onMouseLeave={() => setCtaHover(false)} style={{cursor:"pointer",position:"relative"}}>
                         <a data-w-id="5b56ab36-260c-0462-ceea-c6b8266c50bf" href="#" className="navbar-btn w-inline-block"></a>
-                        <div className="hover-state-wrap" style={{width:"0%"}}></div>
-                        <div className="navbar-cta-text" style={{color:"rgb(129, 67, 152)"}}>Contact Us</div>
+                        <div className="hover-state-wrap" style={{width: ctaHover ? "100%" : "0%", transition:"width 0.3s ease"}}></div>
+                        <div className="navbar-cta-text" style={{color: ctaHover ? "#ffffff" : "rgb(129, 67, 152)", transition:"color 0.3s ease", position:"relative", zIndex:1}}>Contact Us</div>
                       </div>
                     </div>
                   </nav>
@@ -459,15 +460,15 @@ export default function Home() {
           </div>
 
           {/* Checkboxes */}
-          <div className="mb-6 space-y-3">
-            <label className="flex items-center justify-center gap-2 text-sm font-bold text-gray-800"><input type="checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} className="h-4 w-4 rounded border-gray-300 accent-purple-600" />Agree to terms and conditions</label>
-            <label className="flex items-center justify-center gap-2 text-sm text-gray-700"><input type="checkbox" checked={updates} onChange={(e) => setUpdates(e.target.checked)} className="h-4 w-4 rounded border-gray-300 accent-purple-600" />Allow us to send periodic emails and updates</label>
-            <label className="flex items-center justify-center gap-2 text-sm text-gray-700"><input type="checkbox" checked={whatsappMsg} onChange={(e) => setWhatsappMsg(e.target.checked)} className="h-4 w-4 rounded border-gray-300 accent-purple-600" />Agree to get WhatsApp messages from us</label>
+          <div className="mb-6 space-y-3" style={{textAlign:"center"}}>
+            <label className="inline-flex items-center gap-2 text-sm font-bold text-gray-800"><input type="checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} className="h-4 w-4 rounded border-gray-300 accent-purple-600" />Agree to terms and conditions</label>
+            <label className="inline-flex items-center gap-2 text-sm text-gray-700"><input type="checkbox" checked={updates} onChange={(e) => setUpdates(e.target.checked)} className="h-4 w-4 rounded border-gray-300 accent-purple-600" />Allow us to send periodic emails and updates</label>
+            <label className="inline-flex items-center gap-2 text-sm text-gray-700"><input type="checkbox" checked={whatsappMsg} onChange={(e) => setWhatsappMsg(e.target.checked)} className="h-4 w-4 rounded border-gray-300 accent-purple-600" />Agree to get WhatsApp messages from us</label>
           </div>
 
           {formError && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{formError}</div>}
 
-          <button type="submit" disabled={submitting}
+          <button type="submit" disabled={submitting} style={{color:"#ffffff"}}
             className="w-full rounded-full bg-purple-600 px-6 py-4 text-base font-semibold text-white shadow-md transition hover:bg-purple-700 active:scale-[0.99] disabled:opacity-60">
             {submitting ? "Submitting..." : "Proceed to Payment"}
           </button>
