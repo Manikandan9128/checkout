@@ -60,6 +60,7 @@ export default function Home() {
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const fieldErr = (key: string) =>
     fieldErrors[key]?.length ? (
@@ -215,7 +216,7 @@ export default function Home() {
                       </div>
                     </div>
                   </nav>
-                  <div className="menu-btn w-nav-button" role="button" tabIndex={0} aria-label="menu" aria-controls="w-nav-overlay-0" aria-haspopup="menu" aria-expanded="false">
+                  <div className="menu-btn w-nav-button" role="button" tabIndex={0} aria-label="menu" aria-controls="w-nav-overlay-0" aria-haspopup="menu" aria-expanded={menuOpen ? "true" : "false"} onClick={() => setMenuOpen(v => !v)}>
                     <div className="menu-icon1">
                       <div className="menu-icon1_line-top-4"></div>
                       <div className="menu-icon1_line-middle-3"><div className="menu-icon_line-middle-inner"></div></div>
@@ -226,7 +227,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0"></div>
+          <div className="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0" style={menuOpen ? {display:"block", height:"auto"} : {display:"none"}}></div>
         </div>
       </header>
 
@@ -459,9 +460,9 @@ export default function Home() {
 
           {/* Checkboxes */}
           <div className="mb-6 space-y-3">
-            <label className="flex items-center gap-2 text-sm text-gray-800"><input type="checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} className="h-4 w-4 rounded border-gray-300 accent-purple-600" />Agree to terms and conditions</label>
-            <label className="flex items-center gap-2 text-sm text-gray-700"><input type="checkbox" checked={updates} onChange={(e) => setUpdates(e.target.checked)} className="h-4 w-4 rounded border-gray-300 accent-purple-600" />Allow us to send periodic emails and updates</label>
-            <label className="flex items-center gap-2 text-sm text-gray-700"><input type="checkbox" checked={whatsappMsg} onChange={(e) => setWhatsappMsg(e.target.checked)} className="h-4 w-4 rounded border-gray-300 accent-purple-600" />Agree to get WhatsApp messages from us</label>
+            <label className="flex items-center justify-center gap-2 text-sm font-bold text-gray-800"><input type="checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} className="h-4 w-4 rounded border-gray-300 accent-purple-600" />Agree to terms and conditions</label>
+            <label className="flex items-center justify-center gap-2 text-sm text-gray-700"><input type="checkbox" checked={updates} onChange={(e) => setUpdates(e.target.checked)} className="h-4 w-4 rounded border-gray-300 accent-purple-600" />Allow us to send periodic emails and updates</label>
+            <label className="flex items-center justify-center gap-2 text-sm text-gray-700"><input type="checkbox" checked={whatsappMsg} onChange={(e) => setWhatsappMsg(e.target.checked)} className="h-4 w-4 rounded border-gray-300 accent-purple-600" />Agree to get WhatsApp messages from us</label>
           </div>
 
           {formError && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{formError}</div>}
