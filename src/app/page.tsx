@@ -265,9 +265,9 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-        <button className="mb-4 flex items-center gap-2 text-sm text-gray-600 hover:text-purple-700">← Back to plans</button>
-        <h1 className="mb-6 text-2xl font-bold text-gray-900 sm:text-3xl">Complete Your Subscription</h1>
+      <main className="mx-auto max-w-4xl px-3 py-6 sm:px-6 sm:py-8 lg:px-8">
+        <button className="mb-3 flex items-center gap-2 text-sm text-gray-600 hover:text-purple-700">← Back to plans</button>
+        <h1 className="mb-5 text-xl font-bold leading-tight text-gray-900 sm:text-2xl lg:text-3xl">Complete Your Subscription</h1>
 
         {/* Plan */}
         <div className="mb-6 rounded-2xl border border-purple-100 bg-purple-50/60 p-5 sm:p-6">
