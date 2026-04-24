@@ -462,7 +462,7 @@ export default function Home() {
           </div>
 
           {/* Checkboxes */}
-          <div className="mb-6 space-y-4" style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+          <div className="mb-6 space-y-4" style={{display:"flex", flexDirection:"column", alignItems:"flex-start"}}>
             <label style={{display:"flex", alignItems:"center", gap:"12px", width:"fit-content"}} className="text-sm font-bold text-gray-800"><input type="checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} className="h-5 w-5 shrink-0 rounded border-gray-300 accent-purple-600" />Agree to terms and conditions</label>
             <label style={{display:"flex", alignItems:"center", gap:"12px", width:"fit-content"}} className="text-sm text-gray-700"><input type="checkbox" checked={updates} onChange={(e) => setUpdates(e.target.checked)} className="h-5 w-5 shrink-0 rounded border-gray-300 accent-purple-600" />Allow us to send periodic emails and updates</label>
             <label style={{display:"flex", alignItems:"center", gap:"12px", width:"fit-content"}} className="text-sm text-gray-700"><input type="checkbox" checked={whatsappMsg} onChange={(e) => setWhatsappMsg(e.target.checked)} className="h-5 w-5 shrink-0 rounded border-gray-300 accent-purple-600" />Agree to get WhatsApp messages from us</label>
