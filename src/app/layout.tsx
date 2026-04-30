@@ -22,6 +22,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Saksham Senior - Complete Your Subscription",
   description: "Subscribe to Saksham Senior plans",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
