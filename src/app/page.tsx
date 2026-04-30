@@ -76,7 +76,7 @@ export default function Home() {
   const [deviceModel, setDeviceModel] = useState("");
   const [zoomCall, setZoomCall] = useState("");
   const [whatsappCall, setWhatsappCall] = useState("");
-  const [agreeTerms, setAgreeTerms] = useState(true);
+  const [agreeTerms, setAgreeTerms] = useState(false);
   const [updates, setUpdates] = useState(false);
   const [whatsappMsg, setWhatsappMsg] = useState(false);
   const [showLangDropdown, setShowLangDropdown] = useState(false);
@@ -350,7 +350,7 @@ export default function Home() {
       </header>
 
       <main className="mx-auto max-w-4xl px-3 py-6 sm:px-6 sm:py-8 lg:px-8">
-        <button className="mb-3 flex items-center gap-2 text-sm text-gray-600 hover:text-purple-700">← Back to plans</button>
+        <a href="/plan" className="mb-3 flex items-center gap-2 text-sm text-gray-600 hover:text-purple-700">← Back to plans</a>
         <h1 className="mb-5 text-xl font-bold leading-tight text-gray-900 sm:text-2xl lg:text-3xl">Complete Your Subscription</h1>
 
         {/* Plan */}
