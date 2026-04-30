@@ -209,7 +209,7 @@ export default function Home() {
       await loadRazorpayScript();
 
       const rzpOptions = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ?? "rzp_test_SjGvV9e0WsF8uT",
         subscription_id: razorpaySubscriptionId,
         name: "Saksham Senior",
         description: selectedPlan.identity,
