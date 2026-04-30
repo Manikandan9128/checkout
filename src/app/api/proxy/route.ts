@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
     const data = await res.json();
     return NextResponse.json(data, { status: res.status });
   } catch (e) {
+  
     return NextResponse.json({ error: String(e), url }, { status: 502 });
   }
 }

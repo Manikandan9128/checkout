@@ -270,15 +270,15 @@ export default function Home() {
         <h1 className="mb-5 text-xl font-bold leading-tight text-gray-900 sm:text-2xl lg:text-3xl">Complete Your Subscription</h1>
 
         {/* Plan */}
-        <div className="mb-6 rounded-2xl border border-purple-100 bg-purple-50/60 p-5 sm:p-6">
-          <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-start">
+        <div className="mb-5 rounded-2xl border border-purple-100 bg-purple-50/60 p-4 sm:p-6">
+          <div className="flex items-center justify-between gap-2">
             <div>
-              <div className="text-base font-bold text-gray-900">Selected Plan</div>
-              <div className="mt-1 text-sm text-gray-700">SS Tech Saathi - Lite Plan (Peace of Mind)</div>
+              <div className="text-sm font-bold text-gray-900">Selected Plan</div>
+              <div className="mt-0.5 text-xs text-gray-700">SS Tech Saathi - Lite Plan (Peace of Mind)</div>
             </div>
-            <div className="text-left sm:text-right">
-              <div className="text-lg font-bold text-purple-700">₹199/month</div>
-              <div className="text-sm text-gray-600">Monthly</div>
+            <div className="text-right shrink-0">
+              <div className="text-base font-bold text-purple-700">₹199/month</div>
+              <div className="text-xs text-gray-600">Monthly</div>
             </div>
           </div>
         </div>
@@ -287,16 +287,16 @@ export default function Home() {
 
         <form onSubmit={handleSubmit}>
           {/* Onboarding type */}
-          <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="mb-5 grid grid-cols-2 gap-3">
             {([
               { type: "self" as const, icon: "👤", label: "I'm Senior", desc: "I am subscribing for myself to learn and stay safe online." },
               { type: "relation" as const, icon: "👥", label: "For Someone else", desc: "I am subscribing for a parent, relative, or friend." },
             ]).map(({ type, icon, label, desc }) => (
               <button key={type} type="button" onClick={() => setOnboardingType(type)}
-                className={`rounded-2xl border p-5 text-center transition ${onboardingType === type ? "border-purple-500 bg-purple-50" : "border-gray-200 bg-white hover:border-gray-300"}`}>
-                <div className={`mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg ${onboardingType === type ? "bg-purple-600 text-white" : "bg-gray-100 text-gray-600"}`}>{icon}</div>
-                <div className={`text-base font-bold ${onboardingType === type ? "text-purple-700" : "text-gray-900"}`}>{label}</div>
-                <p className="mt-1 text-xs text-gray-600">{desc}</p>
+                className={`rounded-2xl border p-3 sm:p-5 text-center transition ${onboardingType === type ? "border-purple-500 bg-purple-50" : "border-gray-200 bg-white hover:border-gray-300"}`}>
+                <div className={`mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-lg text-lg ${onboardingType === type ? "bg-purple-600 text-white" : "bg-gray-100 text-gray-600"}`}>{icon}</div>
+                <div className={`text-sm font-bold ${onboardingType === type ? "text-purple-700" : "text-gray-900"}`}>{label}</div>
+                <p className="mt-1 text-xs text-gray-500 leading-tight">{desc}</p>
               </button>
             ))}
           </div>
@@ -305,7 +305,7 @@ export default function Home() {
           {onboardingType === "relation" && (
             <div className="mb-6">
               {relatives.map((rel, i) => (
-                <div key={i} className="mb-4 rounded-2xl border border-gray-200 bg-white p-5">
+                <div key={i} className="mb-4 rounded-2xl border border-gray-200 bg-white p-4 sm:p-5">
                   <div className="mb-4 flex items-center gap-2">
                     <span className="flex h-6 w-6 items-center justify-center rounded-full bg-purple-600 text-xs font-bold text-white">
                       {String(i + 1).padStart(2, "0")}
@@ -374,7 +374,7 @@ export default function Home() {
           )}
 
           {/* ── Senior Information ── */}
-          <div className="mb-4 rounded-2xl border border-gray-200 bg-white p-5">
+          <div className="mb-4 rounded-2xl border border-gray-200 bg-white p-4 sm:p-5">
             {onboardingType === "relation" && (
               <div className="mb-4 flex items-center gap-2">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-purple-600 text-xs font-bold text-white">02</span>
