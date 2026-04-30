@@ -4,6 +4,27 @@
 import { useState, useEffect } from "react";
 
 interface Option { id: number | string; identity: string; }
+
+interface PlanFeature {
+  id: number;
+  uuid: string;
+  identity: string | null;
+  description: string | null;
+}
+
+interface Plan {
+  id: number;
+  uuid: string;
+  identity: string;
+  description: string;
+  plan_type: string;
+  amount: number;
+  currency: string;
+  interval: string;
+  razorpay_plan_id: string;
+  features: PlanFeature[];
+}
+
 interface RelativeEntry {
   first_name: string;
   last_name: string;
@@ -27,6 +48,8 @@ const inp = "w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm
 const lbl = "mb-1.5 block text-sm font-medium text-gray-800";
 
 export default function Home() {
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [genderOptions, setGenderOptions] = useState<Option[]>([]);
   const [relationshipOptions, setRelationshipOptions] = useState<Option[]>([]);
   const [languages, setLanguages] = useState<Option[]>([]);
@@ -83,12 +106,16 @@ export default function Home() {
       apiFetch("/api/senior/create/meta/"),
       apiFetch("/api/administration/language-list/"),
       apiFetch("/api/administration/platform/"),
+      apiFetch("/api/subscription/plan/list/"),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ]).then(([meta, lang, platform]: any[]) => {
+    ]).then(([meta, lang, platform, planData]: any[]) => {
       setGenderOptions(meta?.data?.meta?.gender ?? []);
       setRelationshipOptions(meta?.data?.meta?.relationship ?? []);
       setLanguages(lang?.data?.results ?? []);
       setPlatforms(platform?.data?.results ?? []);
+      const fetchedPlans: Plan[] = planData?.data?.results ?? [];
+      setPlans(fetchedPlans);
+      if (fetchedPlans.length > 0) setSelectedPlan(fetchedPlans[0]);
     }).catch((e) => setLoadError(`Failed to load options: ${e}`));
   }, []);
 
@@ -98,6 +125,17 @@ export default function Home() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     apiFetch("/api/administration/device-model-list/", `platform=${device}`).then((d: any) => setModels(d?.data?.results ?? []));
   }, [device]);
+
+  const loadRazorpayScript = () =>
+    new Promise<void>((resolve, reject) => {
+      if (document.getElementById("razorpay-script")) { resolve(); return; }
+      const s = document.createElement("script");
+      s.id = "razorpay-script";
+      s.src = "https://checkout.razorpay.com/v1/checkout.js";
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error("Failed to load Razorpay SDK"));
+      document.body.appendChild(s);
+    });
 
   const updateRelative = (i: number, field: keyof RelativeEntry, val: string) =>
     setRelatives((prev) => prev.map((r, idx) => idx === i ? { ...r, [field]: val } : r));
@@ -113,6 +151,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreeTerms) { setFormError("Please agree to terms and conditions."); return; }
+    if (!selectedPlan) { setFormError("Please select a plan."); return; }
     setFormError("");
     setFieldErrors({});
     setSubmitting(true);
@@ -156,9 +195,55 @@ export default function Home() {
         } else {
           setFormError("Something went wrong. Please try again.");
         }
-      } else {
-        alert("Subscription created! Proceeding to payment...");
+        return;
       }
+
+      const seniorUuid: string = data?.data?.uuid ?? data?.data?.id ?? "";
+
+      if (selectedPlan.amount === 0) {
+        alert("Registration successful! Your free plan is active.");
+        return;
+      }
+
+      // Create Razorpay subscription/order on backend
+      const orderRes = await fetch(`${BASE}/api/subscription/order/create/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: selectedPlan.uuid, senior: seniorUuid }),
+      });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const orderData: any = await orderRes.json();
+      if (!orderRes.ok) {
+        setFormError("Failed to initiate payment. Please try again.");
+        return;
+      }
+
+      await loadRazorpayScript();
+
+      const rzpOptions = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        subscription_id: orderData?.data?.subscription_id,
+        order_id: orderData?.data?.order_id,
+        amount: selectedPlan.amount * 100,
+        currency: selectedPlan.currency,
+        name: "Saksham Senior",
+        description: selectedPlan.identity,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        handler: async (response: any) => {
+          await fetch(`${BASE}/api/subscription/payment/verify/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...response, senior: seniorUuid, plan: selectedPlan.uuid }),
+          });
+          alert("Payment successful! Your subscription is now active.");
+        },
+        prefill: { name: `${firstName} ${lastName}`, email, contact: `${COUNTRY_CODES[countryCode]}${phone}` },
+        theme: { color: "#814398" },
+      };
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const rzp = new (window as any).Razorpay(rzpOptions);
+      rzp.open();
     } catch {
       setFormError("Network error. Please try again.");
     } finally {
@@ -270,18 +355,26 @@ export default function Home() {
         <h1 className="mb-5 text-xl font-bold leading-tight text-gray-900 sm:text-2xl lg:text-3xl">Complete Your Subscription</h1>
 
         {/* Plan */}
-        <div className="mb-5 rounded-2xl border border-purple-100 bg-purple-50/60 p-4 sm:p-6">
-          <div className="flex items-center justify-between gap-2">
-            <div>
-              <div className="text-sm font-bold text-gray-900">Selected Plan</div>
-              <div className="mt-0.5 text-xs text-gray-700">SS Tech Saathi - Lite Plan (Peace of Mind)</div>
-            </div>
-            <div className="text-right shrink-0">
-              <div className="text-base font-bold text-purple-700">₹199/month</div>
-              <div className="text-xs text-gray-600">Monthly</div>
+        {selectedPlan && (
+          <div className="mb-5 rounded-2xl border border-purple-100 bg-purple-50/60 p-4 sm:p-6">
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <div className="text-sm font-bold text-gray-900">Selected Plan</div>
+                <div className="mt-0.5 text-xs text-gray-700">{selectedPlan.identity}</div>
+                {selectedPlan.description && <div className="mt-0.5 text-xs text-gray-500">{selectedPlan.description}</div>}
+              </div>
+              <div className="shrink-0 text-right">
+                <div className="text-base font-bold text-purple-700">
+                  {selectedPlan.amount === 0 ? "Free" : `₹${selectedPlan.amount}/${selectedPlan.interval === "monthly" ? "month" : "year"}`}
+                </div>
+                <div className="text-xs text-gray-600 capitalize">{selectedPlan.interval}</div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
+        {plans.length === 0 && !loadError && (
+          <div className="mb-5 rounded-2xl border border-gray-100 bg-gray-50 px-4 py-6 text-center text-sm text-gray-400">Loading plan...</div>
+        )}
 
         {loadError && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{loadError}</div>}
 
@@ -503,7 +596,7 @@ export default function Home() {
 
           <button type="submit" disabled={submitting} style={{color:"#ffffff"}}
             className="w-full rounded-full bg-purple-600 px-6 py-4 text-base font-semibold text-white shadow-md transition hover:bg-purple-700 active:scale-[0.99] disabled:opacity-60">
-            {submitting ? "Submitting..." : "Proceed to Payment"}
+            {submitting ? "Submitting..." : selectedPlan?.amount === 0 ? "Activate Free Plan" : "Proceed to Payment"}
           </button>
         </form>
       </main>
