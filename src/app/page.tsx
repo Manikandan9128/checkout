@@ -171,7 +171,7 @@ export default function Home() {
       whatsapp_call: whatsappCall === "yes",
       whatsapp_msg: whatsappMsg,
       updates,
-      plan: selectedPlan.uuid,
+      plan: selectedPlan.id,
       ...(onboardingType === "relation" ? {
         relatives: relatives.map((r) => ({
           first_name: r.first_name,
