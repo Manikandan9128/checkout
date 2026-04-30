@@ -171,6 +171,7 @@ export default function Home() {
       whatsapp_call: whatsappCall === "yes",
       whatsapp_msg: whatsappMsg,
       updates,
+      plan: selectedPlan.uuid,
       ...(onboardingType === "relation" ? {
         relatives: relatives.map((r) => ({
           first_name: r.first_name,
@@ -198,23 +199,10 @@ export default function Home() {
         return;
       }
 
-      const seniorUuid: string = data?.data?.uuid ?? data?.data?.id ?? "";
+      const razorpaySubscriptionId: string = data?.data?.razorpay_subscription_id ?? "";
 
-      if (selectedPlan.amount === 0) {
-        alert("Registration successful! Your free plan is active.");
-        return;
-      }
-
-      // Create Razorpay subscription/order on backend
-      const orderRes = await fetch(`${BASE}/api/subscription/order/create/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: selectedPlan.uuid, senior: seniorUuid }),
-      });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const orderData: any = await orderRes.json();
-      if (!orderRes.ok) {
-        setFormError("Failed to initiate payment. Please try again.");
+      if (!razorpaySubscriptionId) {
+        alert("Registration successful! Your plan is now active.");
         return;
       }
 
@@ -222,20 +210,31 @@ export default function Home() {
 
       const rzpOptions = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        subscription_id: orderData?.data?.subscription_id,
-        order_id: orderData?.data?.order_id,
-        amount: selectedPlan.amount * 100,
-        currency: selectedPlan.currency,
+        subscription_id: razorpaySubscriptionId,
         name: "Saksham Senior",
         description: selectedPlan.identity,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         handler: async (response: any) => {
-          await fetch(`${BASE}/api/subscription/payment/verify/`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ ...response, senior: seniorUuid, plan: selectedPlan.uuid }),
-          });
-          alert("Payment successful! Your subscription is now active.");
+          try {
+            const verifyRes = await fetch(`${BASE}/api/subscription/verify-razorpay-subscription/`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_subscription_id: response.razorpay_subscription_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+            });
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const verifyData: any = await verifyRes.json();
+            if (verifyRes.ok && verifyData?.status === "success") {
+              alert("Payment successful! Your subscription is now active.");
+            } else {
+              alert("Payment verification failed. Please contact support.");
+            }
+          } catch {
+            alert("Payment verification failed. Please contact support.");
+          }
         },
         prefill: { name: `${firstName} ${lastName}`, email, contact: `${COUNTRY_CODES[countryCode]}${phone}` },
         theme: { color: "#814398" },
