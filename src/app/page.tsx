@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
 interface Option { id: number | string; identity: string; }
 
@@ -47,7 +48,10 @@ const emptyRelative = (): RelativeEntry => ({ first_name: "", last_name: "", ema
 const inp = "w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200 transition";
 const lbl = "mb-1.5 block text-sm font-medium text-gray-800";
 
-export default function Home() {
+function HomeInner() {
+  const searchParams = useSearchParams();
+  const planIdParam = searchParams.get("plan");
+
   const [plans, setPlans] = useState<Plan[]>([]);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [genderOptions, setGenderOptions] = useState<Option[]>([]);
@@ -115,7 +119,12 @@ export default function Home() {
       setPlatforms(platform?.data?.results ?? []);
       const fetchedPlans: Plan[] = planData?.data?.results ?? [];
       setPlans(fetchedPlans);
-      if (fetchedPlans.length > 0) setSelectedPlan(fetchedPlans[0]);
+      if (fetchedPlans.length > 0) {
+        const matched = planIdParam
+          ? fetchedPlans.find((p) => p.razorpay_plan_id === planIdParam) ?? fetchedPlans[0]
+          : fetchedPlans[0];
+        setSelectedPlan(matched);
+      }
     }).catch((e) => setLoadError(`Failed to load options: ${e}`));
   }, []);
 
@@ -251,7 +260,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans">
+    <div className="min-h-screen bg-white font-sans" data-comp="home">
       {/* Navbar */}
       <header>
         <div data-w-id="5b56ab36-260c-0462-ceea-c6b8266c509e" data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" className="navbar w-nav">
@@ -669,5 +678,13 @@ export default function Home() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={null}>
+      <HomeInner />
+    </Suspense>
   );
 }
