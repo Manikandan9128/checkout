@@ -1,22 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Mukta } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { DevLinkProvider } from "@/devlink/DevLinkProvider";
 
-const inter = Inter({
+const mukta = Mukta({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-inter",
-});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-mukta",
 });
 
 export const metadata: Metadata = {
@@ -37,7 +28,7 @@ export default function RootLayout({
       <head>
         <link rel="stylesheet" href="https://cdn.prod.website-files.com/69df9a13ad765128599ea0d4/css/saksham-senior-staging.webflow.shared.8e49e9ba7.css" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}>
+      <body className={`${mukta.variable} antialiased`}>
         <DevLinkProvider>
           {children}
         </DevLinkProvider>
