@@ -360,7 +360,7 @@ function HomeInner() {
 
       <main className="mx-auto max-w-4xl px-3 py-6 sm:px-6 sm:py-8 lg:px-8">
         <a href="/plan" className="mb-3 flex items-center gap-2 text-sm text-gray-600 hover:text-purple-700">← Back to plans</a>
-        <h1 className="mb-5 text-xl font-bold leading-tight text-gray-900 sm:text-2xl lg:text-3xl">Complete Your Subscription</h1>
+        <h1 className="mb-5">Complete Your Subscription</h1>
 
         {/* Plan */}
         {selectedPlan && (
@@ -372,7 +372,7 @@ function HomeInner() {
                 {selectedPlan.description && <div className="mt-0.5 text-xs text-gray-500">{selectedPlan.description}</div>}
               </div>
               <div className="shrink-0 text-right">
-                <div className="text-base font-bold text-purple-700">
+                <div className="text-base font-bold" style={{color:"#C17B00"}}>
                   {selectedPlan.amount === 0 ? "Free" : `₹${selectedPlan.amount}/${selectedPlan.interval === "monthly" ? "month" : "year"}`}
                 </div>
                 <div className="text-xs text-gray-600 capitalize">{selectedPlan.interval}</div>
@@ -390,12 +390,34 @@ function HomeInner() {
           {/* Onboarding type */}
           <div className="mb-5 grid grid-cols-2 gap-3">
             {([
-              { type: "self" as const, icon: "👤", label: "I'm Senior", desc: "I am subscribing for myself to learn and stay safe online." },
-              { type: "relation" as const, icon: "👥", label: "For Someone else", desc: "I am subscribing for a parent, relative, or friend." },
+              {
+                type: "self" as const,
+                icon: (active: boolean) => (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke={active ? "#ffffff" : "#6B7280"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M20.59 22C20.59 18.13 16.74 15 12 15C7.26 15 3.41 18.13 3.41 22" stroke={active ? "#ffffff" : "#6B7280"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                ),
+                label: "I'm Senior",
+                desc: "I am subscribing for myself to learn and stay safe online."
+              },
+              {
+                type: "relation" as const,
+                icon: (active: boolean) => (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke={active ? "#ffffff" : "#6B7280"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M16.5 8C17.8807 8 19 6.88071 19 5.5C19 4.11929 17.8807 3 16.5 3C15.1193 3 14 4.11929 14 5.5C14 6.88071 15.1193 8 16.5 8Z" stroke={active ? "#ffffff" : "#6B7280"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M16.5 10.5C18.433 10.5 20 11.567 20 14" stroke={active ? "#ffffff" : "#6B7280"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M17 21C17 17.686 13.314 15 9 15C4.686 15 1 17.686 1 21" stroke={active ? "#ffffff" : "#6B7280"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                ),
+                label: "For Someone else",
+                desc: "I am subscribing for a parent, relative, or friend."
+              },
             ]).map(({ type, icon, label, desc }) => (
               <button key={type} type="button" onClick={() => setOnboardingType(type)}
                 className={`rounded-2xl border p-3 sm:p-5 text-center transition ${onboardingType === type ? "border-purple-500 bg-purple-50" : "border-gray-200 bg-white hover:border-gray-300"}`}>
-                <div className={`mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-lg text-lg ${onboardingType === type ? "bg-purple-600 text-white" : "bg-gray-100 text-gray-600"}`}>{icon}</div>
+                <div className={`mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-lg ${onboardingType === type ? "bg-purple-600" : "bg-gray-100"}`}>{icon(onboardingType === type)}</div>
                 <div className={`text-sm font-bold ${onboardingType === type ? "text-purple-700" : "text-gray-900"}`}>{label}</div>
                 <p className="mt-1 text-xs text-gray-500 leading-tight">{desc}</p>
               </button>
@@ -441,7 +463,7 @@ function HomeInner() {
                         {Object.keys(COUNTRY_CODES).map((cc) => <option key={cc} value={cc}>{cc} {COUNTRY_CODES[cc]}</option>)}
                       </select>
                       <input type="tel" value={rel.phone} onChange={(e) => updateRelative(i, "phone", e.target.value)}
-                        placeholder="Enter the number"
+                        placeholder="+1 (555) 000-0000"
                         className="w-full rounded-r-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
                         required />
                     </div>
@@ -522,7 +544,7 @@ function HomeInner() {
                 <select value={countryCode} onChange={(e) => setCountryCode(e.target.value)} className="rounded-l-lg border-0 bg-white px-3 py-3 text-sm focus:outline-none">
                   {Object.keys(COUNTRY_CODES).map((cc) => <option key={cc} value={cc}>{cc} {COUNTRY_CODES[cc]}</option>)}
                 </select>
-                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Enter the number"
+                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+1 (555) 000-0000"
                   className="w-full rounded-r-lg border-0 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:outline-none" required />
               </div>
               {fieldErr("phone_number")}
