@@ -109,11 +109,11 @@ body {
 /* Desktop h1 — Figma spec */
 h1 {
   font-family: 'Mukta', sans-serif;
-  font-style: normal;
   font-weight: 600;
   font-size: 32px;
-  line-height: 53px;
-  text-align: left;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
   text-transform: capitalize;
   color: #1A1A1A;
 }

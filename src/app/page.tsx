@@ -372,7 +372,7 @@ function HomeInner() {
                 {selectedPlan.description && <div className="mt-0.5 text-xs text-gray-500">{selectedPlan.description}</div>}
               </div>
               <div className="shrink-0 text-right">
-                <div className="text-base font-bold" style={{color:"#C17B00"}}>
+                <div style={{fontFamily:"Mukta, sans-serif", fontWeight:400, fontSize:"24px", lineHeight:"100%", letterSpacing:"0px", textAlign:"right", color:"#814398"}}>
                   {selectedPlan.amount === 0 ? "Free" : `₹${selectedPlan.amount}/${selectedPlan.interval === "monthly" ? "month" : "year"}`}
                 </div>
                 <div className="text-xs text-gray-600 capitalize">{selectedPlan.interval}</div>
