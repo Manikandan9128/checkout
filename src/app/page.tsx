@@ -603,7 +603,7 @@ function HomeInner() {
 
           {formError && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{formError}</div>}
 
-          <button type="submit" disabled={submitting || !agreeTerms} style={{color:"#ffffff"}}
+          <button type="submit" disabled={submitting || !agreeTerms || !updates || !whatsappMsg} style={{color:"#ffffff"}}
             className="w-full rounded-full bg-purple-600 px-6 py-4 text-base font-semibold text-white shadow-md transition hover:bg-purple-700 active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed">
             {submitting ? "Submitting..." : selectedPlan?.amount === 0 ? "Activate Free Plan" : "Proceed to Payment"}
           </button>
