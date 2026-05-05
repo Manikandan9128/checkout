@@ -367,15 +367,15 @@ function HomeInner() {
           <div className="mb-5 rounded-2xl border border-purple-100 p-4 sm:p-6" style={{backgroundColor:"#FCEBFF99"}}>
             <div className="flex items-start justify-between gap-2">
               <div>
-                <div className="text-sm font-bold text-gray-900">Selected Plan</div>
-                <div className="mt-0.5 text-xs text-gray-700">{selectedPlan.identity}</div>
-                {selectedPlan.description && <div className="mt-0.5 text-xs text-gray-500">{selectedPlan.description}</div>}
+                <div style={{fontFamily:"Mukta, sans-serif", fontWeight:700, fontSize:"16px", lineHeight:"100%", color:"#1A1A1A"}}>Selected Plan</div>
+                <div style={{fontFamily:"Mukta, sans-serif", fontWeight:400, fontSize:"14px", lineHeight:"100%", color:"#1A1A1A", marginTop:"6px"}}>{selectedPlan.identity}</div>
+                {selectedPlan.description && <div style={{fontFamily:"Mukta, sans-serif", fontWeight:400, fontSize:"13px", color:"#4B5563", marginTop:"4px"}}>{selectedPlan.description}</div>}
               </div>
               <div className="shrink-0 text-right">
                 <div style={{fontFamily:"Mukta, sans-serif", fontWeight:400, fontSize:"24px", lineHeight:"100%", letterSpacing:"0px", textAlign:"right", color:"#814398"}}>
                   {selectedPlan.amount === 0 ? "Free" : `₹${selectedPlan.amount}/${selectedPlan.interval === "monthly" ? "month" : "year"}`}
                 </div>
-                <div className="text-xs text-gray-600 capitalize">{selectedPlan.interval}</div>
+                <div style={{fontFamily:"Mukta, sans-serif", fontWeight:700, fontSize:"16px", lineHeight:"100%", color:"#1A1A1A", textAlign:"right", marginTop:"6px", textTransform:"capitalize"}}>{selectedPlan.interval}</div>
               </div>
             </div>
           </div>
