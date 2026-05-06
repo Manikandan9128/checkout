@@ -360,7 +360,7 @@ function HomeInner() {
 
       <main className="mx-auto max-w-4xl px-3 py-6 sm:px-6 sm:py-8 lg:px-8">
         <a href="/plan" className="mb-3 flex items-center gap-2 text-sm text-gray-600 hover:text-purple-700">← Back to plans</a>
-        <h1 className="mb-5">Complete Your Subscription</h1>
+        <h1 className="mb-8">Complete Your Subscription</h1>
 
         {/* Plan */}
         {selectedPlan && (
