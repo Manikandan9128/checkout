@@ -510,7 +510,7 @@ function HomeInner() {
             <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div><label className={lbl}>First Name</label><input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First name" className={inpCls("first_name")} required />{fieldErr("first_name")}</div>
               <div><label className={lbl}>Last Name</label><input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last name" className={inpCls("last_name")} required />{fieldErr("last_name")}</div>
-              <div><label className={lbl}>Initial</label><input type="text" value={initial} onChange={(e) => setInitial(e.target.value)} placeholder="Initial" maxLength={3} className={inpCls("initial")} />{fieldErr("initial")}</div>
+              <div><label className={lbl}>Initials</label><input type="text" value={initial} onChange={(e) => setInitial(e.target.value)} placeholder="Initials" maxLength={3} className={inpCls("initial")} />{fieldErr("initial")}</div>
             </div>
 
             {/* DOB */}
