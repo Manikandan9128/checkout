@@ -342,17 +342,25 @@ function HomeInner() {
             </div>
           </div>
           <div className="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0" style={menuOpen ? {display:"block", height:"100vh", position:"fixed", top:0, left:0, right:0, bottom:0, zIndex:9999, background:"#fff", overflowY:"auto"} : {display:"none"}}>
-            <nav role="navigation" style={{display:"flex", flexDirection:"column", padding:"0 20px"}}>
-              {/* Logo + close — same horizontal padding */}
-              <div style={{display:"flex", alignItems:"center", justifyContent:"space-between", height:"64px"}}>
-                <a href="/" style={{display:"inline-flex", textDecoration:"none"}}>
-                  <img loading="lazy" src="https://cdn.prod.website-files.com/69df9a13ad765128599ea0d4/69df9a13ad765128599ea0da_Saksham%20Senior%20Logo.svg" alt="Saksham Senior Logo" style={{height:"36px", width:"auto"}} />
-                </a>
-                <button onClick={() => setMenuOpen(false)} style={{background:"none", border:"none", cursor:"pointer", padding:"4px", lineHeight:0}}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="#1A1A1A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                </button>
+            <nav role="navigation" style={{display:"flex", flexDirection:"column"}}>
+              {/* Logo + close — exact same wrapper as main navbar */}
+              <div className="padding-global">
+                <div className="container-large">
+                  <div className="padding-section-small is-nav">
+                    <div className="navbar-component">
+                      <a href="/" className="w-inline-block">
+                        <img loading="lazy" src="https://cdn.prod.website-files.com/69df9a13ad765128599ea0d4/69df9a13ad765128599ea0da_Saksham%20Senior%20Logo.svg" alt="Saksham Senior Logo" />
+                      </a>
+                      <button onClick={() => setMenuOpen(false)} style={{background:"none", border:"none", cursor:"pointer", padding:"4px", lineHeight:0, marginLeft:"auto"}}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="#1A1A1A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              {/* Nav links */}
+              {/* Nav links — same horizontal padding */}
+              <div className="padding-global">
+                <div className="container-large">
               <div style={{display:"flex", flexDirection:"column"}}>
                 {[
                   {href:"/", label:"Home"},
@@ -387,6 +395,8 @@ function HomeInner() {
                 <a href="/community" style={{display:"block", textAlign:"left", padding:"10px 0", textDecoration:"none", color:"#1A1A1A", fontSize:"16px", fontWeight:500}}>Community</a>
                 <div style={{paddingTop:"16px"}}>
                   <a href="/contact-us" style={{display:"inline-block", padding:"12px 28px", borderRadius:"999px", border:"2px solid #814398", color:"#814398", textDecoration:"none", fontWeight:600, fontSize:"15px"}}>Contact Us</a>
+                </div>
+              </div>
                 </div>
               </div>
             </nav>
