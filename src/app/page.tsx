@@ -345,7 +345,7 @@ function HomeInner() {
               </div>
             </div>
           </div>
-          <div className="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0" style={menuOpen ? {display:"block", position:"absolute", top:"100%", left:0, right:0, zIndex:9998, background:"#fff", overflowY:"auto", boxShadow:"0 8px 24px rgba(0,0,0,0.10)"} : {display:"none"}}>
+          <div className="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0" style={menuOpen ? {display:"block", position:"absolute", top:"100%", left:0, right:0, zIndex:9998, background:"#fff", overflowY:"auto", paddingBottom:"16px"} : {display:"none"}}>
             <nav role="navigation" style={{display:"flex", flexDirection:"column"}}>
               {/* Nav links */}
               <div className="padding-global">
