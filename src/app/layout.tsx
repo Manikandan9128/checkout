@@ -26,6 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="stylesheet" href="https://cdn.prod.website-files.com/69df9a13ad765128599ea0d4/css/saksham-senior-staging.webflow.shared.8e49e9ba7.css" />
       </head>
       <body className={`${mukta.variable} antialiased`}>
