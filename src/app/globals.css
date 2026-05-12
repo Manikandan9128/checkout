@@ -116,6 +116,7 @@ h1 {
   text-align: left !important;
   text-transform: capitalize !important;
   color: #1A1A1A !important;
+  margin-bottom: 24px !important;
 }
 
 /* Mobile responsive overrides */

@@ -297,7 +297,23 @@ function HomeInner() {
                               <div style={{color: resHover ? "#ffffff" : "#814398", width:"32px", height:"32px", flexShrink:0, transition:"color 0.2s ease"}}>
                                 <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M16.989 1.40314C15.8497 1.24997 14.3941 1.24998 12.5564 1.25H11.4436C9.60587 1.24998 8.15025 1.24997 7.01105 1.40313C5.83863 1.56076 4.88969 1.89287 4.14133 2.64123C3.39297 3.38958 3.06085 4.33852 2.90321 5.51094C2.75004 6.65014 2.75004 8.10576 2.75004 9.94351L2.75 14.0563C2.74997 15.894 2.74995 17.3498 2.9031 18.489C3.06072 19.6614 3.39283 20.6104 4.1412 21.3587C4.88956 22.1071 5.83851 22.4392 7.01094 22.5969C8.15016 22.75 9.60579 22.75 11.4435 22.75H12.5563C14.394 22.75 15.8497 22.75 16.989 22.5969C18.1614 22.4392 19.1103 22.1071 19.8587 21.3588C20.6071 20.6104 20.9392 19.6614 21.0968 18.489C21.25 17.3498 21.2499 15.8942 21.2499 14.0565V9.94359C21.2499 8.10585 21.25 6.65018 21.0968 5.51098C20.9392 4.33856 20.6071 3.38961 19.8587 2.64124C19.1103 1.89288 18.1614 1.56076 16.989 1.40314ZM8 6C7.44772 6 7 6.44772 7 7C7 7.55229 7.44772 8 8 8H16C16.5523 8 17 7.55229 17 7C17 6.44772 16.5523 6 16 6H8ZM8 11C7.44772 11 7 11.4477 7 12C7 12.5523 7.44772 13 8 13H16C16.5523 13 17 12.5523 17 12C17 11.4477 16.5523 11 16 11H8ZM8 16C7.44772 16 7 16.4477 7 17C7 17.5523 7.44772 18 8 18H12C12.5523 18 13 17.5523 13 17C13 16.4477 12.5523 16 12 16H8Z" fill="currentcolor"></path></svg>
                               </div>
-                              <span style={{color: resHover ? "#ffffff" : "rgb(30,30,30)", fontWeight:500, fontSize:"16px", transition:"color 0.2s ease"}}>Resources</span>
+                              <span style={{color: resHover ? "#ffffff" : "rgb(30,30,30)", fontWeight:500, fontSize:"16px", transition:"color 0.2s ease"}}>Blogs</span>
+                            </a>
+                            <a href="/emergency-contact"
+                              style={{display:"flex", alignItems:"center", gap:"12px", padding:"18px 24px", backgroundColor:"#ffffff", textDecoration:"none", transition:"background-color 0.2s ease"}}
+                              onMouseEnter={e => (e.currentTarget.style.backgroundColor="#814398")} onMouseLeave={e => (e.currentTarget.style.backgroundColor="#ffffff")}>
+                              <div style={{color:"#814398", width:"32px", height:"32px", flexShrink:0}}>
+                                <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.67 11.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012.58 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.55a16 16 0 006.54 6.54l1.92-1.92a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                              </div>
+                              <span style={{color:"rgb(30,30,30)", fontWeight:500, fontSize:"16px"}}>Emergency Contact</span>
+                            </a>
+                            <a href="/customer-support"
+                              style={{display:"flex", alignItems:"center", gap:"12px", padding:"18px 24px", backgroundColor:"#ffffff", textDecoration:"none", transition:"background-color 0.2s ease"}}
+                              onMouseEnter={e => (e.currentTarget.style.backgroundColor="#814398")} onMouseLeave={e => (e.currentTarget.style.backgroundColor="#ffffff")}>
+                              <div style={{color:"#814398", width:"32px", height:"32px", flexShrink:0}}>
+                                <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                              </div>
+                              <span style={{color:"rgb(30,30,30)", fontWeight:500, fontSize:"16px"}}>Customer Support</span>
                             </a>
                           </div>
                         )}
@@ -346,7 +362,19 @@ function HomeInner() {
                       <span style={{color:"#814398", width:"20px", height:"20px", flexShrink:0}}>
                         <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none"><path fillRule="evenodd" clipRule="evenodd" d="M16.989 1.40314C15.8497 1.24997 14.3941 1.24998 12.5564 1.25H11.4436C9.60587 1.24998 8.15025 1.24997 7.01105 1.40313C5.83863 1.56076 4.88969 1.89287 4.14133 2.64123C3.39297 3.38958 3.06085 4.33852 2.90321 5.51094C2.75004 6.65014 2.75004 8.10576 2.75004 9.94351L2.75 14.0563C2.74997 15.894 2.74995 17.3498 2.9031 18.489C3.06072 19.6614 3.39283 20.6104 4.1412 21.3587C4.88956 22.1071 5.83851 22.4392 7.01094 22.5969C8.15016 22.75 9.60579 22.75 11.4435 22.75H12.5563C14.394 22.75 15.8497 22.75 16.989 22.5969C18.1614 22.4392 19.1103 22.1071 19.8587 21.3588C20.6071 20.6104 20.9392 19.6614 21.0968 18.489C21.25 17.3498 21.2499 15.8942 21.2499 14.0565V9.94359C21.2499 8.10585 21.25 6.65018 21.0968 5.51098C20.9392 4.33856 20.6071 3.38961 19.8587 2.64124C19.1103 1.89288 18.1614 1.56076 16.989 1.40314ZM8 6C7.44772 6 7 6.44772 7 7C7 7.55229 7.44772 8 8 8H16C16.5523 8 17 7.55229 17 7C17 6.44772 16.5523 6 16 6H8ZM8 11C7.44772 11 7 11.4477 7 12C7 12.5523 7.44772 13 8 13H16C16.5523 13 17 12.5523 17 12C17 11.4477 16.5523 11 16 11H8ZM8 16C7.44772 16 7 16.4477 7 17C7 17.5523 7.44772 18 8 18H12C12.5523 18 13 17.5523 13 17C13 16.4477 12.5523 16 12 16H8Z" fill="currentcolor"/></svg>
                       </span>
-                      <span style={{fontWeight:500}}>Resources</span>
+                      <span style={{fontWeight:500}}>Blogs</span>
+                    </a>
+                    <a href="/emergency-contact" style={{display:"flex", alignItems:"center", gap:"10px", padding:"10px 0", textDecoration:"none", color:"rgb(30,30,30)"}}>
+                      <span style={{color:"#814398", width:"20px", height:"20px", flexShrink:0}}>
+                        <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.67 11.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012.58 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.55a16 16 0 006.54 6.54l1.92-1.92a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      </span>
+                      <span style={{fontWeight:500}}>Emergency Contact</span>
+                    </a>
+                    <a href="/customer-support" style={{display:"flex", alignItems:"center", gap:"10px", padding:"10px 0", textDecoration:"none", color:"rgb(30,30,30)"}}>
+                      <span style={{color:"#814398", width:"20px", height:"20px", flexShrink:0}}>
+                        <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      </span>
+                      <span style={{fontWeight:500}}>Customer Support</span>
                     </a>
                   </div>
                 )}
@@ -360,7 +388,7 @@ function HomeInner() {
 
       <main className="mx-auto max-w-4xl px-3 py-6 sm:px-6 sm:py-8 lg:px-8">
         <a href="/plan" className="mb-3 flex items-center gap-2 text-sm text-gray-600 hover:text-purple-700">← Back to plans</a>
-        <h1 className="mb-6">Complete Your Subscription</h1>
+        <h1 className="mb-6" style={{marginBottom:"24px"}}>Complete Your Subscription</h1>
 
         {/* Plan */}
         {selectedPlan && (
@@ -394,8 +422,10 @@ function HomeInner() {
                 type: "self" as const,
                 icon: (active: boolean) => (
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke={active ? "#ffffff" : "#6B7280"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M20.59 22C20.59 18.13 16.74 15 12 15C7.26 15 3.41 18.13 3.41 22" stroke={active ? "#ffffff" : "#6B7280"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z" stroke={active ? "#ffffff" : "#6B7280"} strokeWidth="1.5"/>
+                    <path d="M15 11C17.2091 11 19 9.20914 19 7C19 4.79086 17.2091 3 15 3" stroke={active ? "#ffffff" : "#6B7280"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M11 14H7C4.23858 14 2 16.2386 2 19C2 20.1046 2.89543 21 4 21H14C15.1046 21 16 20.1046 16 19C16 16.2386 13.7614 14 11 14Z" stroke={active ? "#ffffff" : "#6B7280"} strokeWidth="1.5" strokeLinejoin="round"/>
+                    <path d="M17 14C19.7614 14 22 16.2386 22 19C22 20.1046 21.1046 21 20 21H18.5" stroke={active ? "#ffffff" : "#6B7280"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 ),
                 label: "I'm Senior",
@@ -416,7 +446,8 @@ function HomeInner() {
               },
             ]).map(({ type, icon, label, desc }) => (
               <button key={type} type="button" onClick={() => setOnboardingType(type)}
-                className={`rounded-2xl border p-3 sm:p-5 text-center transition ${onboardingType === type ? "border-purple-500 bg-purple-50" : "border-gray-200 bg-white hover:border-gray-300"}`}>
+                className={`rounded-2xl border p-3 sm:p-5 text-center transition ${onboardingType === type ? "bg-purple-50" : "border-gray-200 bg-white hover:border-gray-300"}`}
+                style={onboardingType === type ? {border:"1.5px solid #C4A8D4"} : {border:"1px solid #D0D5DD", borderRadius:"20px"}}>
                 <div className={`mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-lg ${onboardingType === type ? "bg-purple-600" : "bg-gray-100"}`}>{icon(onboardingType === type)}</div>
                 <div className={`text-sm font-bold ${onboardingType === type ? "text-purple-700" : "text-gray-900"}`}>{label}</div>
                 <p className="mt-1 text-xs text-gray-500 leading-tight">{desc}</p>
@@ -669,10 +700,12 @@ function HomeInner() {
                       </div>
                     </div>
                     <div>
-                      <div className="footer-link-header"><div>Learn</div></div>
+                      <div className="footer-link-header"><div>Resources</div></div>
                       <div className="footer-link-holder">
                         <a href="/tutorials" className="footer-link w-inline-block"><div>Tech Tutorials</div></a>
-                        <a href="/blogs" className="footer-link w-inline-block"><div>Resources</div></a>
+                        <a href="/blogs" className="footer-link w-inline-block"><div>Blogs</div></a>
+                        <a href="/emergency-contact" className="footer-link w-inline-block"><div>Emergency Contact</div></a>
+                        <a href="/customer-support" className="footer-link w-inline-block"><div>Customer Support</div></a>
                       </div>
                     </div>
                     <div>
