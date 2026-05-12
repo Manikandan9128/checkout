@@ -331,34 +331,23 @@ function HomeInner() {
                     </div>
                   </nav>
                   <div className="menu-btn w-nav-button" role="button" tabIndex={0} aria-label="menu" aria-controls="w-nav-overlay-0" aria-haspopup="menu" aria-expanded={menuOpen ? "true" : "false"} onClick={() => setMenuOpen(v => !v)}>
-                    <div className="menu-icon1">
-                      <div className="menu-icon1_line-top-4"></div>
-                      <div className="menu-icon1_line-middle-3"><div className="menu-icon_line-middle-inner"></div></div>
-                      <div className="menu-icon1_line-bottom-3"></div>
-                    </div>
+                    {menuOpen ? (
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="#1A1A1A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    ) : (
+                      <div className="menu-icon1">
+                        <div className="menu-icon1_line-top-4"></div>
+                        <div className="menu-icon1_line-middle-3"><div className="menu-icon_line-middle-inner"></div></div>
+                        <div className="menu-icon1_line-bottom-3"></div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0" style={menuOpen ? {display:"block", height:"100vh", position:"fixed", top:0, left:0, right:0, bottom:0, zIndex:9999, background:"#fff", overflowY:"auto"} : {display:"none"}}>
+          <div className="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0" style={menuOpen ? {display:"block", position:"absolute", top:"100%", left:0, right:0, zIndex:9998, background:"#fff", overflowY:"auto", boxShadow:"0 8px 24px rgba(0,0,0,0.10)"} : {display:"none"}}>
             <nav role="navigation" style={{display:"flex", flexDirection:"column"}}>
-              {/* Logo + close — exact same wrapper as main navbar */}
-              <div className="padding-global">
-                <div className="container-large">
-                  <div className="padding-section-small is-nav">
-                    <div className="navbar-component">
-                      <a href="/" className="w-inline-block">
-                        <img loading="lazy" src="https://cdn.prod.website-files.com/69df9a13ad765128599ea0d4/69df9a13ad765128599ea0da_Saksham%20Senior%20Logo.svg" alt="Saksham Senior Logo" />
-                      </a>
-                      <button onClick={() => setMenuOpen(false)} style={{background:"none", border:"none", cursor:"pointer", padding:"4px", lineHeight:0, marginLeft:"auto"}}>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="#1A1A1A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Nav links — same horizontal padding */}
+              {/* Nav links */}
               <div className="padding-global">
                 <div className="container-large">
               <div style={{display:"flex", flexDirection:"column"}}>
