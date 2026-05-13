@@ -36,6 +36,8 @@ interface RelativeEntry {
 }
 
 const COUNTRY_CODES: Record<string, string> = { IN: "+91", US: "+1", UK: "+44" };
+const PHONE_MAX_LEN: Record<string, number> = { IN: 10, US: 10, UK: 11 };
+const numericOnly = (val: string) => val.replace(/\D/g, "");
 const BASE = "https://api-staging.sakshamsenior.com";
 
 function apiFetch(path: string, query?: string) {
@@ -498,8 +500,10 @@ function HomeInner() {
                         className="rounded-l-lg border border-r-0 border-gray-300 bg-white px-3 py-3 text-sm focus:outline-none">
                         {Object.keys(COUNTRY_CODES).map((cc) => <option key={cc} value={cc}>{cc} {COUNTRY_CODES[cc]}</option>)}
                       </select>
-                      <input type="tel" value={rel.phone} onChange={(e) => updateRelative(i, "phone", e.target.value)}
-                        placeholder="+1 (555) 000-0000"
+                      <input type="tel" inputMode="numeric" value={rel.phone}
+                        onChange={(e) => updateRelative(i, "phone", numericOnly(e.target.value).slice(0, PHONE_MAX_LEN[rel.countryCode] ?? 15))}
+                        placeholder={rel.countryCode === "IN" ? "98765 43210" : "555 000 0000"}
+                        maxLength={PHONE_MAX_LEN[rel.countryCode] ?? 15}
                         className="w-full rounded-r-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
                         required />
                     </div>
@@ -581,7 +585,10 @@ function HomeInner() {
                 <select value={countryCode} onChange={(e) => setCountryCode(e.target.value)} className="rounded-l-lg border-0 bg-white px-3 py-3 text-sm focus:outline-none">
                   {Object.keys(COUNTRY_CODES).map((cc) => <option key={cc} value={cc}>{cc} {COUNTRY_CODES[cc]}</option>)}
                 </select>
-                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+1 (555) 000-0000"
+                <input type="tel" inputMode="numeric" value={phone}
+                  onChange={(e) => setPhone(numericOnly(e.target.value).slice(0, PHONE_MAX_LEN[countryCode] ?? 15))}
+                  placeholder={countryCode === "IN" ? "98765 43210" : "555 000 0000"}
+                  maxLength={PHONE_MAX_LEN[countryCode] ?? 15}
                   className="w-full rounded-r-lg border-0 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:outline-none" required />
               </div>
               {fieldErr("phone_number")}
