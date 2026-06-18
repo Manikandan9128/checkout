@@ -15,9 +15,10 @@ export const metadata: Metadata = {
   description: "Subscribe to Saksham Senior plans",
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
     ],
+    apple: "https://cdn.prod.website-files.com/69df9a13ad765128599ea0d4/69e62698901c690a2568259a_Saksham%20Senior%20-%20Logo-2.svg",
   },
 };
 
@@ -29,8 +30,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="https://cdn.prod.website-files.com/69df9a13ad765128599ea0d4/69e62698901c690a2568259a_Saksham%20Senior%20-%20Logo-2.svg" />
         <link rel="stylesheet" href="https://cdn.prod.website-files.com/69df9a13ad765128599ea0d4/css/saksham-senior-staging.webflow.shared.8e49e9ba7.css" />
       </head>
       <body className={`${mukta.variable} antialiased`}>

@@ -400,7 +400,7 @@ function HomeInner() {
         <h1 className="mb-6" style={{marginBottom:"24px"}}>Complete Your Subscription</h1>
 
         {/* Plan */}
-        {selectedPlan && (
+        {selectedPlan && false && (
           <div className="mb-5 rounded-2xl border border-purple-100 p-4 sm:p-6" style={{backgroundColor:"#FCEBFF99"}}>
             <div className="flex items-start justify-between gap-2">
               <div>
