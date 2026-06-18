@@ -4,6 +4,8 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
+const SHOW_PLAN_CARD = false;
+
 interface Option { id: number | string; identity: string; }
 
 interface PlanFeature {
@@ -400,7 +402,7 @@ function HomeInner() {
         <h1 className="mb-6" style={{marginBottom:"24px"}}>Complete Your Subscription</h1>
 
         {/* Plan */}
-        {selectedPlan && false && (
+        {SHOW_PLAN_CARD && selectedPlan && (
           <div className="mb-5 rounded-2xl border border-purple-100 p-4 sm:p-6" style={{backgroundColor:"#FCEBFF99"}}>
             <div className="flex items-start justify-between gap-2">
               <div>
