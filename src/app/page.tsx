@@ -186,7 +186,7 @@ function HomeInner() {
       whatsapp_call: whatsappCall === "yes",
       whatsapp_msg: whatsappMsg,
       updates,
-      plan: selectedPlan.id,
+      plan: plans.find((p) => p.razorpay_plan_id === "2")?.id ?? selectedPlan.id,
       ...(onboardingType === "relation" ? {
         relatives: relatives.map((r) => ({
           first_name: r.first_name,
