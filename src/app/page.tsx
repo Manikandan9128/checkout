@@ -127,7 +127,7 @@ function HomeInner() {
       setPlans(fetchedPlans);
       if (fetchedPlans.length > 0) {
         const matched = planIdParam
-          ? fetchedPlans.find((p) => p.razorpay_plan_id === planIdParam) ?? fetchedPlans[0]
+          ? fetchedPlans.find((p) => String(p.id) === planIdParam) ?? fetchedPlans[0]
           : fetchedPlans[0];
         setSelectedPlan(matched);
       }
@@ -186,7 +186,7 @@ function HomeInner() {
       whatsapp_call: whatsappCall === "yes",
       whatsapp_msg: whatsappMsg,
       updates,
-      plan: plans.find((p) => p.razorpay_plan_id === "2")?.id ?? selectedPlan.id,
+      plan: selectedPlan.id,
       ...(onboardingType === "relation" ? {
         relatives: relatives.map((r) => ({
           first_name: r.first_name,
