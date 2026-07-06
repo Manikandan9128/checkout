@@ -4,6 +4,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import SuccessModal from "./SuccessModal";
+import DatePicker from "./DatePicker";
 
 const SHOW_PLAN_CARD = false;
 
@@ -561,7 +562,7 @@ function HomeInner() {
             {/* DOB */}
             <div className="mb-4">
               <label className={lbl}>Date Of Birth</label>
-              <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} className={inpCls("dob")} required
+              <DatePicker value={dob} onChange={setDob} className={inpCls("dob")} required
                 max={new Date(new Date().setFullYear(new Date().getFullYear() - 10)).toISOString().split("T")[0]} />
               {fieldErr("dob")}
             </div>
