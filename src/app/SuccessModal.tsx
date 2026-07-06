@@ -36,7 +36,7 @@ export default function SuccessModal({
       onClick={onClose}
     >
       <div
-        className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl bg-white p-4 shadow-xl sm:p-10"
+        className="relative max-h-[90vh] w-full max-w-[1050px] overflow-y-auto rounded-2xl bg-white p-4 shadow-xl sm:p-10"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -59,7 +59,7 @@ export default function SuccessModal({
           />
         </div>
 
-        <h2 className="text-center text-lg font-bold text-gray-900 sm:text-3xl">
+        <h2 className="text-center text-lg font-bold text-gray-900 sm:text-[52px]">
           {title}
         </h2>
         <p className="mx-auto mt-2 max-w-md text-center text-xs text-gray-500 sm:mt-3 sm:text-base">
