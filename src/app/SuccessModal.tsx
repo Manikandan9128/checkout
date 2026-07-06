@@ -90,7 +90,7 @@ export default function SuccessModal({
               type="button"
               aria-label="Copy WhatsApp link"
               onClick={(e) => copyLink(e, WHATSAPP_LINK, "whatsapp")}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-purple-600 hover:bg-purple-50"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white text-purple-600 hover:bg-purple-50"
             >
               <CopyIcon copied={copied === "whatsapp"} />
             </button>
@@ -117,7 +117,7 @@ export default function SuccessModal({
               type="button"
               aria-label="Copy YouTube link"
               onClick={(e) => copyLink(e, YOUTUBE_LINK, "youtube")}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-purple-600 hover:bg-purple-50"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white text-purple-600 hover:bg-purple-50"
             >
               <CopyIcon copied={copied === "youtube"} />
             </button>
@@ -147,7 +147,7 @@ function CopyIcon({ copied }: { copied: boolean }) {
 
 function ExternalIcon() {
   return (
-    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-purple-600">
+    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white text-purple-600">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
         <path d="M14 5h5m0 0v5m0-5-7 7M19 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
