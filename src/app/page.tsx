@@ -128,9 +128,10 @@ function HomeInner() {
       const fetchedPlans: Plan[] = planData?.data?.results ?? [];
       setPlans(fetchedPlans);
       if (fetchedPlans.length > 0) {
+        const defaultPlan = fetchedPlans.find((p) => String(p.id) === "2") ?? fetchedPlans[0];
         const matched = planIdParam
-          ? fetchedPlans.find((p) => String(p.id) === planIdParam) ?? fetchedPlans[0]
-          : fetchedPlans[0];
+          ? fetchedPlans.find((p) => String(p.id) === planIdParam) ?? defaultPlan
+          : defaultPlan;
         setSelectedPlan(matched);
       }
     }).catch((e) => setLoadError(`Failed to load options: ${e}`));

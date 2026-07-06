@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 
 interface SuccessModalProps {
   open: boolean;
@@ -9,13 +10,26 @@ interface SuccessModalProps {
   subtitle?: string;
 }
 
+const YOUTUBE_LINK = "https://www.youtube.com/@sakshamsenior";
+const WHATSAPP_LINK = "https://wa.me/+919999043434";
+
 export default function SuccessModal({
   open,
   onClose,
   title = "You're All Set!",
   subtitle = "Your registration is complete and your plan is now active.",
 }: SuccessModalProps) {
+  const [copied, setCopied] = useState<"whatsapp" | "youtube" | null>(null);
+
   if (!open) return null;
+
+  const copyLink = (e: React.MouseEvent, link: string, key: "whatsapp" | "youtube") => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(link);
+    setCopied(key);
+    setTimeout(() => setCopied((c) => (c === key ? null : c)), 1500);
+  };
 
   return (
     <div
@@ -57,26 +71,7 @@ export default function SuccessModal({
 
         <div className="mt-6 flex flex-col gap-3 sm:mt-8">
           <a
-            href="https://www.youtube.com/@sakshamsenior"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-4 rounded-xl bg-gray-100 p-4 transition hover:bg-gray-200"
-          >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M22 12c0-3.6-.3-5-1.1-5.9-.9-1-2.2-1.1-4.7-1.3C14.4 4.6 12 4.6 12 4.6s-2.4 0-4.2.2c-2.5.2-3.8.3-4.7 1.3C2.3 7 2 8.4 2 12s.3 5 1.1 5.9c.9 1 2.2 1.1 4.7 1.3 1.8.2 4.2.2 4.2.2s2.4 0 4.2-.2c2.5-.2 3.8-.3 4.7-1.3.8-.9 1.1-2.3 1.1-5.9Z" fill="#FF0000"/>
-                <path d="M10 15.2 15.5 12 10 8.8v6.4Z" fill="#fff"/>
-              </svg>
-            </span>
-            <span className="flex-1">
-              <span className="block font-semibold text-gray-900">Watch on Youtube</span>
-              <span className="mt-0.5 block text-sm text-gray-500">Helpful videos to get you started and make the most of your plan</span>
-            </span>
-            <ExternalIcon />
-          </a>
-
-          <a
-            href="https://wa.me/message"
+            href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-4 rounded-xl bg-gray-100 p-4 transition hover:bg-gray-200"
@@ -91,11 +86,62 @@ export default function SuccessModal({
               <span className="block font-semibold text-gray-900">Chat with our bot</span>
               <span className="mt-0.5 block text-sm text-gray-500">Get instant answers and support anytime, anywhere</span>
             </span>
+            <button
+              type="button"
+              aria-label="Copy WhatsApp link"
+              onClick={(e) => copyLink(e, WHATSAPP_LINK, "whatsapp")}
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-purple-600 hover:bg-purple-50"
+            >
+              <CopyIcon copied={copied === "whatsapp"} />
+            </button>
+            <ExternalIcon />
+          </a>
+
+          <a
+            href={YOUTUBE_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-4 rounded-xl bg-gray-100 p-4 transition hover:bg-gray-200"
+          >
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M22 12c0-3.6-.3-5-1.1-5.9-.9-1-2.2-1.1-4.7-1.3C14.4 4.6 12 4.6 12 4.6s-2.4 0-4.2.2c-2.5.2-3.8.3-4.7 1.3C2.3 7 2 8.4 2 12s.3 5 1.1 5.9c.9 1 2.2 1.1 4.7 1.3 1.8.2 4.2.2 4.2.2s2.4 0 4.2-.2c2.5-.2 3.8-.3 4.7-1.3.8-.9 1.1-2.3 1.1-5.9Z" fill="#FF0000"/>
+                <path d="M10 15.2 15.5 12 10 8.8v6.4Z" fill="#fff"/>
+              </svg>
+            </span>
+            <span className="flex-1">
+              <span className="block font-semibold text-gray-900">Watch on Youtube</span>
+              <span className="mt-0.5 block text-sm text-gray-500">Helpful videos to get you started and make the most of your plan</span>
+            </span>
+            <button
+              type="button"
+              aria-label="Copy YouTube link"
+              onClick={(e) => copyLink(e, YOUTUBE_LINK, "youtube")}
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-purple-600 hover:bg-purple-50"
+            >
+              <CopyIcon copied={copied === "youtube"} />
+            </button>
             <ExternalIcon />
           </a>
         </div>
       </div>
     </div>
+  );
+}
+
+function CopyIcon({ copied }: { copied: boolean }) {
+  if (copied) {
+    return (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="2" />
+      <path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 
