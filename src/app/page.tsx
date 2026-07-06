@@ -171,6 +171,7 @@ function HomeInner() {
     e.preventDefault();
     if (!agreeTerms) { setFormError("Please agree to terms and conditions."); return; }
     if (!selectedPlan) { setFormError("Please select a plan."); return; }
+    if (!dob) { setFormError("Please select date of birth."); return; }
     setFormError("");
     setFieldErrors({});
     setSubmitting(true);
@@ -562,7 +563,7 @@ function HomeInner() {
             {/* DOB */}
             <div className="mb-4">
               <label className={lbl}>Date Of Birth</label>
-              <DatePicker value={dob} onChange={setDob} className={inpCls("dob")} required
+              <DatePicker value={dob} onChange={setDob} className={inpCls("dob")}
                 max={new Date(new Date().setFullYear(new Date().getFullYear() - 10)).toISOString().split("T")[0]} />
               {fieldErr("dob")}
             </div>

@@ -8,7 +8,6 @@ interface DatePickerProps {
   max?: string;
   className?: string;
   placeholder?: string;
-  required?: boolean;
 }
 
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -34,7 +33,7 @@ function formatDisplay(d: Date): string {
   return `${day}/${m}/${d.getFullYear()}`;
 }
 
-export default function DatePicker({ value, onChange, max, className, placeholder = "dd/mm/yyyy", required }: DatePickerProps) {
+export default function DatePicker({ value, onChange, max, className, placeholder = "dd/mm/yyyy" }: DatePickerProps) {
   const [open, setOpen] = useState(false);
   const selected = parseDate(value);
   const maxDate = max ? parseDate(max) : null;
@@ -72,7 +71,7 @@ export default function DatePicker({ value, onChange, max, className, placeholde
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className={`${className} flex items-center justify-between text-left`}
+        className={`${className} flex items-center justify-between text-left border-solid`}
       >
         <span className={selected ? "" : "text-gray-400"}>{selected ? formatDisplay(selected) : placeholder}</span>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="text-gray-400">
@@ -80,7 +79,6 @@ export default function DatePicker({ value, onChange, max, className, placeholde
           <path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
       </button>
-      {required && !selected && <input tabIndex={-1} aria-hidden className="sr-only" required value="" onChange={() => {}} />}
 
       {open && (
         <div className="absolute z-50 mt-2 w-72 rounded-xl border border-gray-200 bg-white p-3 shadow-xl">
