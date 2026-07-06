@@ -3,6 +3,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import SuccessModal from "./SuccessModal";
 
 const SHOW_PLAN_CARD = false;
 
@@ -90,6 +91,7 @@ function HomeInner() {
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [menuOpen, setMenuOpen] = useState(false);
   const [ctaHover, setCtaHover] = useState(false);
@@ -217,7 +219,7 @@ function HomeInner() {
       const razorpaySubscriptionId: string = data?.data?.razorpay_subscription_id ?? "";
 
       if (!razorpaySubscriptionId) {
-        alert("Registration successful! Your plan is now active.");
+        setShowSuccessModal(true);
         return;
       }
 
@@ -243,7 +245,7 @@ function HomeInner() {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const verifyData: any = await verifyRes.json();
             if (verifyRes.ok && verifyData?.status === "success") {
-              alert("Payment successful! Your subscription is now active.");
+              setShowSuccessModal(true);
             } else {
               alert("Payment verification failed. Please contact support.");
             }
@@ -747,6 +749,7 @@ function HomeInner() {
           </div>
         </div>
       </footer>
+      <SuccessModal open={showSuccessModal} onClose={() => setShowSuccessModal(false)} />
     </div>
   );
 }
