@@ -68,8 +68,9 @@ export default function SuccessModal({
         <p className="mx-auto mt-3 max-w-md text-center text-sm text-gray-500 sm:text-base">
           {subtitle}
         </p>
+        <div className="mx-auto mt-4 h-1 w-6 rounded-full bg-pink-500" />
 
-        <div className="mt-6 flex flex-col gap-3 sm:mt-8">
+        <div className="mt-6 flex flex-col gap-5 sm:mt-8">
           <a
             href={WHATSAPP_LINK}
             target="_blank"
