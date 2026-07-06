@@ -71,7 +71,8 @@ export default function DatePicker({ value, onChange, max, className, placeholde
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className={`${className} flex items-center justify-between text-left border-solid`}
+        className={`${className} flex items-center justify-between text-left`}
+        style={{ borderWidth: "1px", borderStyle: "solid", borderColor: "#D1D5DB" }}
       >
         <span className={selected ? "" : "text-gray-400"}>{selected ? formatDisplay(selected) : placeholder}</span>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="text-gray-400">
@@ -105,9 +106,10 @@ export default function DatePicker({ value, onChange, max, className, placeholde
                   type="button"
                   disabled={disabled}
                   onClick={() => { onChange(formatValue(d)); setOpen(false); }}
+                  style={isSelected ? { backgroundColor: "#7e22ce", color: "#ffffff" } : undefined}
                   className={`mx-auto flex h-8 w-8 items-center justify-center rounded-full transition ${
                     isSelected
-                      ? "bg-purple-600 text-white font-semibold"
+                      ? "font-semibold"
                       : disabled
                       ? "text-gray-300 cursor-not-allowed"
                       : "text-gray-700 hover:bg-purple-100"
