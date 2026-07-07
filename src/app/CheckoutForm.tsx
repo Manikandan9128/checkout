@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface Option { id: number | string; identity: string; }
 interface Relative {
@@ -40,6 +40,7 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
   const [updates, setUpdates] = useState(false);
   const [whatsappMsg, setWhatsappMsg] = useState(false);
   const [showLangDropdown, setShowLangDropdown] = useState(false);
+  const langDropdownRef = useRef<HTMLDivElement>(null);
   const [relative, setRelative] = useState<Relative>({ first_name: "", last_name: "", phone_number: "", email: "", relationship: "" });
   const [relativeCountry, setRelativeCountry] = useState("IN");
   const [submitting, setSubmitting] = useState(false);
@@ -57,8 +58,23 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
   const removeLang = (id: number | string) => setSelectedLangs(selectedLangs.filter((l) => l.id !== id));
   const addLang = (lang: Option) => {
     if (!selectedLangs.find((l) => l.id === lang.id)) setSelectedLangs([...selectedLangs, lang]);
-    setShowLangDropdown(false);
   };
+
+  useEffect(() => {
+    if (!showLangDropdown) return;
+    const onClick = (e: MouseEvent) => {
+      if (langDropdownRef.current && !langDropdownRef.current.contains(e.target as Node)) setShowLangDropdown(false);
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowLangDropdown(false);
+    };
+    document.addEventListener("mousedown", onClick);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onClick);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [showLangDropdown]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -223,15 +239,24 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
           </div>
 
           {/* Languages */}
-          <div className="relative mb-4">
+          <div className="relative mb-4" ref={langDropdownRef}>
             <label className={labelClass}>Preferred Languages</label>
             <div className={`${inputClass} flex min-h-[48px] cursor-pointer flex-wrap items-center gap-2`}
               onClick={() => setShowLangDropdown(!showLangDropdown)}>
               {selectedLangs.length === 0 && <span className="text-sm text-gray-400">Select languages</span>}
               {selectedLangs.map((lang) => (
-                <span key={lang.id} className="inline-flex items-center gap-1 rounded-md bg-purple-100 px-2 py-1 text-xs text-purple-700">
+                <span key={lang.id} className="inline-flex items-center gap-1 rounded-md bg-purple-100 py-1 pl-2 pr-1 text-xs text-purple-700">
                   {lang.identity}
-                  <button type="button" onClick={(e) => { e.stopPropagation(); removeLang(lang.id); }} className="hover:text-purple-900">×</button>
+                  <button
+                    type="button"
+                    aria-label={`Remove ${lang.identity}`}
+                    onClick={(e) => { e.stopPropagation(); removeLang(lang.id); }}
+                    className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-purple-700 hover:bg-purple-200 hover:text-purple-900"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
                 </span>
               ))}
               <span className="ml-auto text-gray-400">▾</span>
