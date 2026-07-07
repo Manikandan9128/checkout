@@ -36,7 +36,7 @@ export default function SuccessModal({
       onClick={onClose}
     >
       <div
-        className="relative max-h-[90vh] w-full max-w-[1050px] overflow-y-auto rounded-2xl bg-white p-4 shadow-xl sm:p-10"
+        className="relative max-h-[90vh] w-full max-w-[1200px] overflow-y-auto rounded-2xl bg-white p-4 shadow-xl sm:p-12"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -50,7 +50,7 @@ export default function SuccessModal({
           </svg>
         </button>
 
-        <div className="relative mx-auto mb-2 h-28 w-full sm:mb-4 sm:h-64">
+        <div className="relative mx-auto mb-2 h-28 w-full sm:mb-6 sm:h-80">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/onboard/success-illustration.png"
