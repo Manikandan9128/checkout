@@ -36,7 +36,7 @@ export default function SuccessModal({
       onClick={onClose}
     >
       <div
-        className="relative max-h-[90vh] w-full max-w-[1200px] overflow-y-auto rounded-2xl bg-white p-4 shadow-xl sm:p-12"
+        className="relative max-h-[90vh] w-full max-w-[1000px] overflow-y-auto rounded-2xl bg-white p-4 shadow-xl sm:p-12"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -50,7 +50,7 @@ export default function SuccessModal({
           </svg>
         </button>
 
-        <div className="relative mx-auto mb-2 h-28 w-full sm:mb-6 sm:h-80">
+        <div className="relative mx-auto mb-2 h-28 w-full sm:mb-6 sm:h-80 sm:max-w-[900px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/onboard/success-illustration.png"
@@ -67,7 +67,7 @@ export default function SuccessModal({
         </p>
         <div className="mx-auto mt-3 h-1 w-6 rounded-full bg-pink-500 sm:mt-4" />
 
-        <div className="mt-4 flex flex-col gap-3 sm:mt-8 sm:gap-4">
+        <div className="mx-auto mt-4 flex flex-col gap-3 sm:mt-8 sm:max-w-[900px] sm:gap-4">
           <a
             href={YOUTUBE_LINK}
             target="_blank"
