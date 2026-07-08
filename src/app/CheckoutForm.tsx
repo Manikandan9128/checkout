@@ -59,6 +59,10 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
   const addLang = (lang: Option) => {
     if (!selectedLangs.find((l) => l.id === lang.id)) setSelectedLangs([...selectedLangs, lang]);
   };
+  const toggleLang = (lang: Option) => {
+    if (selectedLangs.find((l) => l.id === lang.id)) removeLang(lang.id);
+    else addLang(lang);
+  };
 
   useEffect(() => {
     if (!showLangDropdown) return;
@@ -262,10 +266,20 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
             </div>
             {showLangDropdown && (
               <div className="absolute z-10 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
-                {languages.filter((l) => !selectedLangs.find((s) => s.id === l.id)).map((lang) => (
-                  <button type="button" key={lang.id} onClick={() => addLang(lang)}
-                    className="block w-full px-4 py-2 text-left text-sm hover:bg-purple-50">{lang.identity}</button>
-                ))}
+                {languages.map((lang) => {
+                  const checked = !!selectedLangs.find((s) => s.id === lang.id);
+                  return (
+                    <label key={lang.id} className="flex w-full cursor-pointer items-center gap-2 px-4 py-2 text-sm hover:bg-purple-50">
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() => toggleLang(lang)}
+                        className="h-4 w-4 rounded border-gray-300 text-purple-700 focus:ring-purple-500"
+                      />
+                      {lang.identity}
+                    </label>
+                  );
+                })}
               </div>
             )}
           </div>
