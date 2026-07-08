@@ -245,17 +245,16 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
               onClick={() => setShowLangDropdown(!showLangDropdown)}>
               {selectedLangs.length === 0 && <span className="text-sm text-gray-400">Select languages</span>}
               {selectedLangs.map((lang) => (
-                <span key={lang.id} className="inline-flex items-center gap-1 rounded-md bg-purple-100 py-1 pl-2 pr-1 text-xs text-purple-700">
+                <span key={lang.id} className="inline-flex items-center gap-1 rounded-md bg-purple-100 py-1 pl-2 pr-1 text-purple-700" style={{ fontSize: "16px" }}>
                   {lang.identity}
                   <button
                     type="button"
                     aria-label={`Remove ${lang.identity}`}
                     onClick={(e) => { e.stopPropagation(); removeLang(lang.id); }}
                     className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-purple-700 hover:bg-purple-200 hover:text-purple-900"
+                    style={{ fontSize: "16px" }}
                   >
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    ×
                   </button>
                 </span>
               ))}
