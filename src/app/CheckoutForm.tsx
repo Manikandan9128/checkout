@@ -269,15 +269,21 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
                 {languages.map((lang) => {
                   const checked = !!selectedLangs.find((s) => s.id === lang.id);
                   return (
-                    <label key={lang.id} className="flex w-full cursor-pointer items-center gap-2 px-4 py-2 text-sm hover:bg-purple-50">
-                      <input
-                        type="checkbox"
-                        checked={checked}
-                        onChange={() => toggleLang(lang)}
-                        className="h-4 w-4 rounded border-gray-300 text-purple-700 focus:ring-purple-500"
-                      />
+                    <button
+                      type="button"
+                      key={lang.id}
+                      onClick={() => toggleLang(lang)}
+                      className={`flex w-full items-center justify-between px-4 py-2 text-left text-sm transition ${
+                        checked ? "bg-purple-100 text-purple-700 font-medium" : "text-gray-700 hover:bg-purple-50"
+                      }`}
+                    >
                       {lang.identity}
-                    </label>
+                      {checked && (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0 text-purple-700">
+                          <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                    </button>
                   );
                 })}
               </div>
