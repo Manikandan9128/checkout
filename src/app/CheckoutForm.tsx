@@ -271,14 +271,14 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
                   return (
                     <label
                       key={lang.id}
-                      className="flex w-full cursor-pointer items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-purple-50"
+                      className="flex w-full cursor-pointer items-center justify-between gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-purple-50"
                     >
-                      {lang.identity}
+                      <span className="truncate">{lang.identity}</span>
                       <input
                         type="checkbox"
                         checked={checked}
                         onChange={() => toggleLang(lang)}
-                        className="h-4 w-4 rounded border-gray-300 accent-purple-600"
+                        className="h-4 w-4 shrink-0 rounded border-gray-300 accent-purple-600"
                       />
                     </label>
                   );
