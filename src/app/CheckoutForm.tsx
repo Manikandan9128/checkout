@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface Option { id: number | string; identity: string; }
 interface Relative {
@@ -39,6 +39,8 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
   const [agreeTerms, setAgreeTerms] = useState(true);
   const [updates, setUpdates] = useState(false);
   const [whatsappMsg, setWhatsappMsg] = useState(false);
+  const [showLangDropdown, setShowLangDropdown] = useState(false);
+  const langDropdownRef = useRef<HTMLDivElement>(null);
   const [relative, setRelative] = useState<Relative>({ first_name: "", last_name: "", phone_number: "", email: "", relationship: "" });
   const [relativeCountry, setRelativeCountry] = useState("IN");
   const [submitting, setSubmitting] = useState(false);
@@ -55,6 +57,22 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
 
   const toggleLang = (lang: Option) =>
     setSelectedLangs((p) => p.find((l) => l.id === lang.id) ? p.filter((l) => l.id !== lang.id) : [...p, lang]);
+
+  useEffect(() => {
+    if (!showLangDropdown) return;
+    const onClick = (e: MouseEvent) => {
+      if (langDropdownRef.current && !langDropdownRef.current.contains(e.target as Node)) setShowLangDropdown(false);
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowLangDropdown(false);
+    };
+    document.addEventListener("mousedown", onClick);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onClick);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [showLangDropdown]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -219,24 +237,42 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
           </div>
 
           {/* Languages */}
-          <div className="mb-4">
+          <div className="relative mb-4" ref={langDropdownRef}>
             <label className={labelClass}>Preferred Languages</label>
-            <div className="grid grid-cols-2 gap-2 rounded-lg border border-gray-300 bg-white p-3 sm:grid-cols-3">
-              {languages.map((lang) => {
-                const checked = !!selectedLangs.find((s) => s.id === lang.id);
-                return (
-                  <label key={lang.id} className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-700 hover:bg-purple-50">
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => toggleLang(lang)}
-                      className="h-4 w-4 shrink-0 rounded border-gray-300 accent-purple-600"
-                    />
-                    {lang.identity}
-                  </label>
-                );
-              })}
+            <div className={`${inputClass} flex min-h-[48px] cursor-pointer items-center justify-between`} onClick={() => setShowLangDropdown((v) => !v)}>
+              <span className="text-sm text-gray-400">
+                {selectedLangs.length === 0 ? "Select languages" : `${selectedLangs.length} selected`}
+              </span>
+              <span className={`text-gray-400 transition-transform ${showLangDropdown ? "rotate-180" : ""}`}>▾</span>
             </div>
+            {showLangDropdown && (
+              <div className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
+                {languages.map((lang) => {
+                  const checked = !!selectedLangs.find((s) => s.id === lang.id);
+                  return (
+                    <label key={lang.id} className="flex w-full cursor-pointer items-center justify-between px-4 py-2.5 text-sm text-gray-700 hover:bg-purple-50">
+                      {lang.identity}
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() => toggleLang(lang)}
+                        className="h-4 w-4 shrink-0 rounded border-gray-300 accent-purple-600"
+                      />
+                    </label>
+                  );
+                })}
+              </div>
+            )}
+            {selectedLangs.length > 0 && (
+              <div className="mt-2 flex flex-wrap gap-2">
+                {selectedLangs.map((lang) => (
+                  <span key={lang.id} className="inline-flex items-center gap-1 rounded-md bg-purple-100 px-2 py-1 text-xs text-purple-700">
+                    {lang.identity}
+                    <button type="button" onClick={() => toggleLang(lang)} className="hover:text-purple-900">×</button>
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Device */}
