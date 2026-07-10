@@ -246,18 +246,18 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
               <span className={`text-gray-400 transition-transform ${showLangDropdown ? "rotate-180" : ""}`}>▾</span>
             </div>
             {showLangDropdown && (
-              <div className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
+              <div className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
                 {languages.map((lang) => {
                   const checked = !!selectedLangs.find((s) => s.id === lang.id);
                   return (
-                    <label key={lang.id} className="flex w-full cursor-pointer items-center justify-between px-4 py-2.5 text-sm text-gray-700 hover:bg-purple-50">
-                      {lang.identity}
+                    <label key={lang.id} className="flex w-full cursor-pointer items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-purple-50">
                       <input
                         type="checkbox"
                         checked={checked}
                         onChange={() => toggleLang(lang)}
                         className="h-4 w-4 shrink-0 rounded border-gray-300 accent-purple-600"
                       />
+                      <span className="flex-1">{lang.identity}</span>
                     </label>
                   );
                 })}
@@ -266,9 +266,16 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
             {selectedLangs.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-2">
                 {selectedLangs.map((lang) => (
-                  <span key={lang.id} className="inline-flex items-center gap-1 rounded-md bg-purple-100 px-2 py-1 text-xs text-purple-700">
-                    {lang.identity}
-                    <button type="button" onClick={() => toggleLang(lang)} className="hover:text-purple-900">×</button>
+                  <span key={lang.id} className="inline-flex items-center gap-1.5 rounded-md bg-purple-100 py-1 pl-2.5 pr-1.5 text-xs text-purple-700">
+                    <span>{lang.identity}</span>
+                    <button
+                      type="button"
+                      aria-label={`Remove ${lang.identity}`}
+                      onClick={() => toggleLang(lang)}
+                      className="flex h-4 w-4 shrink-0 items-center justify-center leading-none hover:text-purple-900"
+                    >
+                      ×
+                    </button>
                   </span>
                 ))}
               </div>
