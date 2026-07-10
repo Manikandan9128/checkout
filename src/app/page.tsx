@@ -89,7 +89,6 @@ function HomeInner() {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [updates, setUpdates] = useState(false);
   const [whatsappMsg, setWhatsappMsg] = useState(false);
-  const [showLangDropdown, setShowLangDropdown] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -161,11 +160,8 @@ function HomeInner() {
   const addRelative = () => setRelatives((prev) => [...prev, emptyRelative()]);
   const removeRelative = (i: number) => setRelatives((prev) => prev.filter((_, idx) => idx !== i));
 
-  const removeLang = (id: number | string) => setSelectedLangs((p) => p.filter((l) => l.id !== id));
-  const addLang = (lang: Option) => {
-    setSelectedLangs((p) => p.find((l) => l.id === lang.id) ? p : [...p, lang]);
-    setShowLangDropdown(false);
-  };
+  const toggleLang = (lang: Option) =>
+    setSelectedLangs((p) => p.find((l) => l.id === lang.id) ? p.filter((l) => l.id !== lang.id) : [...p, lang]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -602,25 +598,24 @@ function HomeInner() {
             </div>
 
             {/* Languages */}
-            <div className="relative mb-4">
+            <div className="mb-4">
               <label className={lbl}>Preferred Languages</label>
-              <div className={`${inp} flex min-h-[48px] cursor-pointer flex-wrap items-center gap-2`} onClick={() => setShowLangDropdown((v) => !v)}>
-                {selectedLangs.length === 0 && <span className="text-sm text-gray-400">Select languages</span>}
-                {selectedLangs.map((lang) => (
-                  <span key={lang.id} className="inline-flex items-center gap-1 rounded-md bg-purple-100 px-2 py-1 text-xs text-purple-700">
-                    {lang.identity}
-                    <button type="button" onClick={(e) => { e.stopPropagation(); removeLang(lang.id); }} className="hover:text-purple-900">×</button>
-                  </span>
-                ))}
-                <span className="ml-auto text-gray-400">▾</span>
+              <div className="grid grid-cols-2 gap-2 rounded-lg border border-gray-300 bg-white p-3 sm:grid-cols-3">
+                {languages.map((lang) => {
+                  const checked = !!selectedLangs.find((s) => s.id === lang.id);
+                  return (
+                    <label key={lang.id} className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-700 hover:bg-purple-50">
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() => toggleLang(lang)}
+                        className="h-4 w-4 shrink-0 rounded border-gray-300 accent-purple-600"
+                      />
+                      {lang.identity}
+                    </label>
+                  );
+                })}
               </div>
-              {showLangDropdown && (
-                <div className="absolute z-10 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
-                  {languages.filter((l) => !selectedLangs.find((s) => s.id === l.id)).map((lang) => (
-                    <button type="button" key={lang.id} onClick={() => addLang(lang)} className="block w-full px-4 py-2 text-left text-sm hover:bg-purple-50">{lang.identity}</button>
-                  ))}
-                </div>
-              )}
               {fieldErr("language")}
             </div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 interface Option { id: number | string; identity: string; }
 interface Relative {
@@ -39,8 +39,6 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
   const [agreeTerms, setAgreeTerms] = useState(true);
   const [updates, setUpdates] = useState(false);
   const [whatsappMsg, setWhatsappMsg] = useState(false);
-  const [showLangDropdown, setShowLangDropdown] = useState(false);
-  const langDropdownRef = useRef<HTMLDivElement>(null);
   const [relative, setRelative] = useState<Relative>({ first_name: "", last_name: "", phone_number: "", email: "", relationship: "" });
   const [relativeCountry, setRelativeCountry] = useState("IN");
   const [submitting, setSubmitting] = useState(false);
@@ -55,30 +53,8 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
       .then((d: any) => setModels(d?.data?.results ?? []));
   }, [device]);
 
-  const removeLang = (id: number | string) => setSelectedLangs(selectedLangs.filter((l) => l.id !== id));
-  const addLang = (lang: Option) => {
-    if (!selectedLangs.find((l) => l.id === lang.id)) setSelectedLangs([...selectedLangs, lang]);
-  };
-  const toggleLang = (lang: Option) => {
-    if (selectedLangs.find((l) => l.id === lang.id)) removeLang(lang.id);
-    else addLang(lang);
-  };
-
-  useEffect(() => {
-    if (!showLangDropdown) return;
-    const onClick = (e: MouseEvent) => {
-      if (langDropdownRef.current && !langDropdownRef.current.contains(e.target as Node)) setShowLangDropdown(false);
-    };
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setShowLangDropdown(false);
-    };
-    document.addEventListener("mousedown", onClick);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("mousedown", onClick);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [showLangDropdown]);
+  const toggleLang = (lang: Option) =>
+    setSelectedLangs((p) => p.find((l) => l.id === lang.id) ? p.filter((l) => l.id !== lang.id) : [...p, lang]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -243,48 +219,24 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
           </div>
 
           {/* Languages */}
-          <div className="relative mb-4" ref={langDropdownRef}>
+          <div className="mb-4">
             <label className={labelClass}>Preferred Languages</label>
-            <div className={`${inputClass} flex min-h-[48px] cursor-pointer flex-wrap items-center gap-2`}
-              onClick={() => setShowLangDropdown(!showLangDropdown)}>
-              {selectedLangs.length === 0 && <span className="text-sm text-gray-400">Select languages</span>}
-              {selectedLangs.map((lang) => (
-                <span key={lang.id} className="inline-flex items-center gap-1 rounded-md bg-purple-100 py-1 pl-2 pr-1 text-purple-700" style={{ fontSize: "16px" }}>
-                  {lang.identity}
-                  <button
-                    type="button"
-                    aria-label={`Remove ${lang.identity}`}
-                    onClick={(e) => { e.stopPropagation(); removeLang(lang.id); }}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-purple-700 hover:bg-purple-200 hover:text-purple-900"
-                    style={{ fontSize: "16px" }}
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
-              <span className="ml-auto text-gray-400">▾</span>
+            <div className="grid grid-cols-2 gap-2 rounded-lg border border-gray-300 bg-white p-3 sm:grid-cols-3">
+              {languages.map((lang) => {
+                const checked = !!selectedLangs.find((s) => s.id === lang.id);
+                return (
+                  <label key={lang.id} className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-700 hover:bg-purple-50">
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => toggleLang(lang)}
+                      className="h-4 w-4 shrink-0 rounded border-gray-300 accent-purple-600"
+                    />
+                    {lang.identity}
+                  </label>
+                );
+              })}
             </div>
-            {showLangDropdown && (
-              <div className="absolute z-10 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
-                {languages.map((lang) => {
-                  const checked = !!selectedLangs.find((s) => s.id === lang.id);
-                  return (
-                    <label
-                      key={lang.id}
-                      className="flex w-full cursor-pointer items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-purple-50"
-                    >
-                      {lang.identity}
-                      <input
-                        type="checkbox"
-                        checked={checked}
-                        onChange={() => toggleLang(lang)}
-                        className="h-4 w-4 rounded border-gray-300 accent-purple-600"
-                      />
-                    </label>
-                  );
-                })}
-              </div>
-            )}
           </div>
 
           {/* Device */}
