@@ -617,41 +617,57 @@ function HomeInner() {
 
             {/* Languages */}
             <div className="relative mb-4" ref={langDropdownRef}>
-              <label className={lbl}>Preferred Languages</label>
-              <div className={`${inp} flex min-h-[48px] cursor-pointer items-center justify-between`} onClick={() => setShowLangDropdown((v) => !v)}>
+              <label className={lbl} id="preferred-languages-label">Preferred Languages</label>
+              <div
+                className={`${inp} flex min-h-[48px] cursor-pointer items-center justify-between`}
+                onClick={() => setShowLangDropdown((v) => !v)}
+                role="button"
+                tabIndex={0}
+                aria-haspopup="listbox"
+                aria-expanded={showLangDropdown}
+                aria-labelledby="preferred-languages-label"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setShowLangDropdown((v) => !v);
+                  }
+                }}
+              >
                 <span className="text-sm text-gray-400">
                   {selectedLangs.length === 0 ? "Select languages" : `${selectedLangs.length} selected`}
                 </span>
                 <span className={`text-gray-400 transition-transform ${showLangDropdown ? "rotate-180" : ""}`}>▾</span>
               </div>
               {showLangDropdown && (
-                <div className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
+                <div className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-xl border border-gray-800 bg-gray-900 py-1 shadow-lg" role="listbox" aria-multiselectable="true">
                   {languages.map((lang) => {
                     const checked = !!selectedLangs.find((s) => s.id === lang.id);
                     return (
-                      <label key={lang.id} className="flex w-full cursor-pointer items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-purple-50">
+                      <label key={lang.id} htmlFor={`lang-${lang.id}`} className="flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-3 text-sm text-white hover:bg-gray-800">
+                        <span className="flex-1">{lang.identity}</span>
                         <input
+                          id={`lang-${lang.id}`}
                           type="checkbox"
                           checked={checked}
                           onChange={() => toggleLang(lang)}
-                          className="h-4 w-4 shrink-0 rounded border-gray-300 accent-purple-600"
+                          className="sr-only"
                         />
-                        <span className="flex-1">{lang.identity}</span>
+                        {checked && <span aria-hidden="true" className="text-white">✓</span>}
                       </label>
                     );
                   })}
                 </div>
               )}
               {selectedLangs.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-2">
+                <div className="mt-2 flex flex-wrap gap-2 rounded-xl border border-gray-800 bg-gray-900 p-3">
                   {selectedLangs.map((lang) => (
-                    <span key={lang.id} className="inline-flex items-center gap-1.5 rounded-md bg-purple-100 py-1 pl-2.5 pr-1.5 text-xs text-purple-700">
+                    <span key={lang.id} className="inline-flex items-center gap-1.5 rounded-md bg-gray-800 py-1.5 pl-3 pr-2 text-xs font-medium text-white">
                       <span>{lang.identity}</span>
                       <button
                         type="button"
                         aria-label={`Remove ${lang.identity}`}
                         onClick={() => toggleLang(lang)}
-                        className="flex h-4 w-4 shrink-0 items-center justify-center leading-none hover:text-purple-900"
+                        className="flex h-4 w-4 shrink-0 items-center justify-center leading-none text-gray-400 hover:text-white"
                       >
                         ×
                       </button>
