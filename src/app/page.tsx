@@ -647,7 +647,7 @@ function HomeInner() {
                         type="button"
                         aria-label={`Remove ${lang.identity}`}
                         onClick={(e) => { e.stopPropagation(); toggleLang(lang); }}
-                        className="flex h-4 w-4 shrink-0 items-center justify-center leading-none text-purple-500 hover:text-purple-900"
+                        className="-m-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full leading-none text-purple-500 hover:text-purple-900"
                       >
                         ×
                       </button>
@@ -676,7 +676,7 @@ function HomeInner() {
                   {languages.map((lang) => {
                     const checked = !!selectedLangs.find((s) => s.id === lang.id);
                     return (
-                      <label key={lang.id} htmlFor={`lang-${lang.id}`} className="flex w-full cursor-pointer items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-purple-50">
+                      <label key={lang.id} htmlFor={`lang-${lang.id}`} className="flex w-full min-h-[44px] cursor-pointer items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-purple-50">
                         <input
                           id={`lang-${lang.id}`}
                           type="checkbox"
