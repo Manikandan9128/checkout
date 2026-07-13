@@ -91,6 +91,7 @@ function HomeInner() {
   const [whatsappMsg, setWhatsappMsg] = useState(false);
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
+  const langListRef = useRef<HTMLDivElement>(null);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -619,7 +620,7 @@ function HomeInner() {
             <div className="relative mb-4" ref={langDropdownRef}>
               <label className={lbl} id="preferred-languages-label">Preferred Languages</label>
               <div
-                className={`${inp} flex min-h-[48px] cursor-pointer items-center justify-between`}
+                className={`${inp} flex min-h-[48px] flex-wrap items-center gap-1.5 cursor-pointer`}
                 onClick={() => setShowLangDropdown((v) => !v)}
                 role="button"
                 tabIndex={0}
@@ -630,49 +631,63 @@ function HomeInner() {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     setShowLangDropdown((v) => !v);
+                  } else if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    setShowLangDropdown(true);
                   }
                 }}
               >
-                <span className="text-sm text-gray-400">
-                  {selectedLangs.length === 0 ? "Select languages" : `${selectedLangs.length} selected`}
-                </span>
-                <span className={`text-gray-400 transition-transform ${showLangDropdown ? "rotate-180" : ""}`}>▾</span>
+                {selectedLangs.length === 0 ? (
+                  <span className="text-sm text-gray-400">Select languages</span>
+                ) : (
+                  selectedLangs.map((lang) => (
+                    <span key={lang.id} className="inline-flex items-center gap-1.5 rounded-md bg-purple-100 py-1 pl-2.5 pr-1.5 text-xs font-medium text-purple-700">
+                      <span>{lang.identity}</span>
+                      <button
+                        type="button"
+                        aria-label={`Remove ${lang.identity}`}
+                        onClick={(e) => { e.stopPropagation(); toggleLang(lang); }}
+                        className="flex h-4 w-4 shrink-0 items-center justify-center leading-none text-purple-500 hover:text-purple-900"
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))
+                )}
+                <span className={`ml-auto text-gray-400 transition-transform ${showLangDropdown ? "rotate-180" : ""}`}>▾</span>
               </div>
               {showLangDropdown && (
-                <div className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-xl border border-gray-800 bg-gray-900 py-1 shadow-lg" role="listbox" aria-multiselectable="true">
+                <div
+                  ref={langListRef}
+                  className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
+                  role="listbox"
+                  aria-multiselectable="true"
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") { setShowLangDropdown(false); return; }
+                    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+                      e.preventDefault();
+                      const items = Array.from(langListRef.current?.querySelectorAll<HTMLInputElement>("input[type=checkbox]") ?? []);
+                      const idx = items.indexOf(document.activeElement as HTMLInputElement);
+                      const next = e.key === "ArrowDown" ? (idx + 1) % items.length : (idx - 1 + items.length) % items.length;
+                      items[next]?.focus();
+                    }
+                  }}
+                >
                   {languages.map((lang) => {
                     const checked = !!selectedLangs.find((s) => s.id === lang.id);
                     return (
-                      <label key={lang.id} htmlFor={`lang-${lang.id}`} className="flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-3 text-sm text-white hover:bg-gray-800">
-                        <span className="flex-1">{lang.identity}</span>
+                      <label key={lang.id} htmlFor={`lang-${lang.id}`} className="flex w-full cursor-pointer items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-purple-50">
                         <input
                           id={`lang-${lang.id}`}
                           type="checkbox"
                           checked={checked}
                           onChange={() => toggleLang(lang)}
-                          className="sr-only"
+                          className="h-4 w-4 shrink-0 rounded border-gray-300 accent-purple-600"
                         />
-                        {checked && <span aria-hidden="true" className="text-white">✓</span>}
+                        <span className="flex-1">{lang.identity}</span>
                       </label>
                     );
                   })}
-                </div>
-              )}
-              {selectedLangs.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-2 rounded-xl border border-gray-800 bg-gray-900 p-3">
-                  {selectedLangs.map((lang) => (
-                    <span key={lang.id} className="inline-flex items-center gap-1.5 rounded-md bg-gray-800 py-1.5 pl-3 pr-2 text-xs font-medium text-white">
-                      <span>{lang.identity}</span>
-                      <button
-                        type="button"
-                        aria-label={`Remove ${lang.identity}`}
-                        onClick={() => toggleLang(lang)}
-                        className="flex h-4 w-4 shrink-0 items-center justify-center leading-none text-gray-400 hover:text-white"
-                      >
-                        ×
-                      </button>
-                    </span>
-                  ))}
                 </div>
               )}
               {fieldErr("language")}
