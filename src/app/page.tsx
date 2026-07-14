@@ -676,7 +676,8 @@ function HomeInner() {
                   {languages.map((lang) => {
                     const checked = !!selectedLangs.find((s) => s.id === lang.id);
                     return (
-                      <label key={lang.id} htmlFor={`lang-${lang.id}`} className="flex w-full min-h-[44px] cursor-pointer items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-purple-50">
+                      <label key={lang.id} htmlFor={`lang-${lang.id}`} className="flex w-full min-h-[44px] cursor-pointer items-center justify-between gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-purple-50">
+                        <span className="flex-1">{lang.identity}</span>
                         <input
                           id={`lang-${lang.id}`}
                           type="checkbox"
@@ -684,7 +685,6 @@ function HomeInner() {
                           onChange={() => toggleLang(lang)}
                           className="h-4 w-4 shrink-0 rounded border-gray-300 accent-purple-600"
                         />
-                        <span className="flex-1">{lang.identity}</span>
                       </label>
                     );
                   })}
