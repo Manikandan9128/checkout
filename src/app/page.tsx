@@ -679,7 +679,7 @@ function HomeInner() {
                       <label
                         key={lang.id}
                         htmlFor={`lang-${lang.id}`}
-                        className={`!mb-0 flex w-full min-h-[44px] shrink-0 cursor-pointer items-center justify-between rounded-md border px-4 py-2.5 text-sm font-normal ${
+                        className={`!mb-0 !flex w-full min-h-[44px] shrink-0 cursor-pointer items-center justify-between rounded-md border px-4 py-2.5 text-sm font-normal ${
                           checked
                             ? "border-purple-300 bg-purple-50 text-purple-700"
                             : "border-transparent text-gray-700 hover:border-purple-100 hover:bg-purple-50"
