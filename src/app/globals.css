@@ -18,6 +18,10 @@
   --color-purple-700: #6b3880;
 }
 
+.language-label {
+  display: flex !important;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

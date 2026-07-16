@@ -252,11 +252,10 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
                   return (
                     <label
                       key={lang.id}
-                      className={`!mb-0 flex w-full shrink-0 cursor-pointer items-center justify-between rounded-md border px-4 py-2.5 text-sm font-normal ${
-                        checked
+                      className={`!mb-0 flex w-full shrink-0 cursor-pointer items-center justify-between rounded-md border px-4 py-2.5 text-sm font-normal language-label ${checked
                           ? "border-purple-300 bg-purple-50 text-purple-700"
                           : "border-transparent text-gray-700 hover:border-purple-100 hover:bg-purple-50"
-                      }`}
+                        }`}
                     >
                       <span className="mr-3 flex-1">{lang.identity}</span>
                       <input
