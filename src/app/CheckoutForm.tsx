@@ -251,6 +251,7 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
                   const checked = !!selectedLangs.find((s) => s.id === lang.id);
                   return (
                     <label
+                      style={{ display: "flex" }}
                       key={lang.id}
                       className={`!mb-0 !flex w-full shrink-0 cursor-pointer items-center justify-between rounded-md border px-4 py-2.5 text-sm font-normal language-label ${checked
                         ? "border-purple-300 bg-purple-50 text-purple-700"
