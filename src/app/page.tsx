@@ -659,7 +659,7 @@ function HomeInner() {
               {showLangDropdown && (
                 <div
                   ref={langListRef}
-                  className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
+                  className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-purple-200 bg-white p-1.5 shadow-lg"
                   role="listbox"
                   aria-multiselectable="true"
                   onKeyDown={(e) => {
@@ -676,7 +676,15 @@ function HomeInner() {
                   {languages.map((lang) => {
                     const checked = !!selectedLangs.find((s) => s.id === lang.id);
                     return (
-                      <label key={lang.id} htmlFor={`lang-${lang.id}`} className="flex w-full min-h-[44px] cursor-pointer items-center justify-between px-4 py-2.5 text-sm text-gray-700 hover:bg-purple-50">
+                      <label
+                        key={lang.id}
+                        htmlFor={`lang-${lang.id}`}
+                        className={`mb-1 flex w-full min-h-[44px] cursor-pointer items-center justify-between rounded-md border px-4 py-2.5 text-sm last:mb-0 ${
+                          checked
+                            ? "border-purple-300 bg-purple-50 text-purple-700"
+                            : "border-transparent text-gray-700 hover:border-purple-100 hover:bg-purple-50"
+                        }`}
+                      >
                         <span className="mr-3 flex-1">{lang.identity}</span>
                         <input
                           id={`lang-${lang.id}`}
