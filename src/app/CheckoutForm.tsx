@@ -250,13 +250,13 @@ export default function CheckoutForm({ genderOptions, relationshipOptions, langu
                 {languages.map((lang) => {
                   const checked = !!selectedLangs.find((s) => s.id === lang.id);
                   return (
-                    <label key={lang.id} className="flex w-full cursor-pointer items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-purple-50">
-                      <span className="flex-1">{lang.identity}</span>
+                    <label key={lang.id} className="flex w-full cursor-pointer items-center justify-between px-4 py-2.5 text-sm text-gray-700 hover:bg-purple-50">
+                      <span className="mr-3 flex-1">{lang.identity}</span>
                       <input
                         type="checkbox"
                         checked={checked}
                         onChange={() => toggleLang(lang)}
-                        className="h-3.5 w-3.5 shrink-0 self-center rounded border-gray-300 accent-purple-600"
+                        className="ml-3 h-3.5 w-3.5 shrink-0 self-center rounded border-gray-300 accent-purple-600"
                       />
                     </label>
                   );
