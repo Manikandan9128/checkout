@@ -3,6 +3,9 @@ import { Mukta } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { DevLinkProvider } from "@/devlink/DevLinkProvider";
+import AuthProvider from "./AuthProvider";
+import LoginModalProvider from "./LoginModalProvider";
+import SiteHeader from "./SiteHeader";
 
 const mukta = Mukta({
   weight: ["400", "500", "600", "700"],
@@ -10,13 +13,15 @@ const mukta = Mukta({
   variable: "--font-mukta",
 });
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 export const metadata: Metadata = {
   title: "Saksham Senior - Complete Your Subscription",
   description: "Subscribe to Saksham Senior plans",
   icons: {
     icon: [
-      { url: "/onboard/favicon.svg", type: "image/svg+xml" },
-      { url: "/onboard/favicon.ico", sizes: "any" },
+      { url: `${basePath}/favicon.svg`, type: "image/svg+xml" },
+      { url: `${basePath}/favicon.ico`, sizes: "any" },
     ],
     apple: "https://cdn.prod.website-files.com/69df9a13ad765128599ea0d4/69e62698901c690a2568259a_Saksham%20Senior%20-%20Logo-2.svg",
   },
@@ -35,7 +40,12 @@ export default function RootLayout({
       </head>
       <body className={`${mukta.variable} antialiased`}>
         <DevLinkProvider>
-          {children}
+          <AuthProvider>
+            <LoginModalProvider>
+              <SiteHeader />
+              {children}
+            </LoginModalProvider>
+          </AuthProvider>
         </DevLinkProvider>
         <Script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossOrigin="anonymous" strategy="beforeInteractive" />
         <Script src="https://cdn.prod.website-files.com/69df9a13ad765128599ea0d4/js/saksham-senior-staging.webflow.5c6319e71.js" crossOrigin="anonymous" strategy="afterInteractive" />
