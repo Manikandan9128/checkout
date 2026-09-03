@@ -4,39 +4,51 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 
 export interface AuthUser {
   id: string;
+  phone: string;
   name: string;
   email: string;
 }
 
-interface SignupInput {
-  name: string;
+export interface RelativeInput {
+  firstName: string;
+  lastName: string;
+  phone: string;
   email: string;
-  password: string;
+  relationship: string;
 }
 
-interface LoginInput {
+export interface ProfileInput {
+  accountType: "self" | "family";
+  firstName: string;
+  lastName: string;
   email: string;
-  password: string;
+  dob: string;
+  gender: string;
+  languages: string[];
+  state: string;
+  relative?: RelativeInput;
 }
+
+type Result = { ok: true } | { ok: false; error: string };
 
 interface AuthContextValue {
   user: AuthUser | null;
   loading: boolean;
-  login: (input: LoginInput) => Promise<{ ok: true } | { ok: false; error: string }>;
-  signup: (input: SignupInput) => Promise<{ ok: true } | { ok: false; error: string }>;
+  requestOtp: (countryCode: string, phone: string) => Promise<Result>;
+  verifyOtp: (countryCode: string, phone: string, otp: string, profile?: ProfileInput) => Promise<Result>;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
-
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const authUrl = (path: string) => `${basePath}/api/auth/${path}`;
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used within AuthProvider");
   return ctx;
 }
+
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const authUrl = (path: string) => `${basePath}/api/auth/${path}`;
 
 async function parseJson(res: Response): Promise<{ error?: string; user?: AuthUser }> {
   try {
@@ -58,31 +70,33 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       .finally(() => setLoading(false));
   }, []);
 
-  const login = useCallback(async (input: LoginInput) => {
-    const res = await fetch(authUrl("login"), {
+  const requestOtp = useCallback(async (countryCode: string, phone: string) => {
+    const res = await fetch(authUrl("otp/request"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify(input),
+      body: JSON.stringify({ countryCode, phone }),
     });
     const data = await parseJson(res);
-    if (!res.ok) return { ok: false as const, error: data.error || "Login failed." };
-    setUser(data.user ?? null);
+    if (!res.ok) return { ok: false as const, error: data.error || "Could not send OTP." };
     return { ok: true as const };
   }, []);
 
-  const signup = useCallback(async (input: SignupInput) => {
-    const res = await fetch(authUrl("signup"), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify(input),
-    });
-    const data = await parseJson(res);
-    if (!res.ok) return { ok: false as const, error: data.error || "Signup failed." };
-    setUser(data.user ?? null);
-    return { ok: true as const };
-  }, []);
+  const verifyOtp = useCallback(
+    async (countryCode: string, phone: string, otp: string, profile?: ProfileInput) => {
+      const res = await fetch(authUrl("otp/verify"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ countryCode, phone, otp, profile }),
+      });
+      const data = await parseJson(res);
+      if (!res.ok) return { ok: false as const, error: data.error || "Verification failed." };
+      setUser(data.user ?? null);
+      return { ok: true as const };
+    },
+    []
+  );
 
   const logout = useCallback(async () => {
     await fetch(authUrl("logout"), { method: "POST", credentials: "include" });
@@ -90,7 +104,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, loading, requestOtp, verifyOtp, logout }}>
       {children}
     </AuthContext.Provider>
   );
