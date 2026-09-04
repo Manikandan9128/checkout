@@ -13,7 +13,7 @@ const mukta = Mukta({
   variable: "--font-mukta",
 });
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/onboard";
 
 export const metadata: Metadata = {
   title: "Saksham Senior - Complete Your Subscription",

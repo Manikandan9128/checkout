@@ -49,7 +49,7 @@ export function useAuth() {
   return ctx;
 }
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/onboard";
 const authUrl = (path: string) => `${basePath}/api/auth/${path}`;
 
 async function parseJson(res: Response): Promise<{ error?: string; user?: AuthUser; isNewUser?: boolean }> {
