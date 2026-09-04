@@ -291,18 +291,28 @@ export default function LoginModal({ open, initialMode, onClose }: LoginModalPro
             <>
               <h2 className="text-xl font-bold" style={{ color: "#814398" }}>New to Saksham, Create your account</h2>
               <p className="mt-1 text-sm text-gray-600">Who are you creating this account for?</p>
-              <div className="mt-6 grid grid-cols-2 gap-3">
+              <div className="mt-6 flex flex-col gap-3 sm:grid sm:grid-cols-2">
                 {([
-                  { key: "self", title: "For Myself", desc: "I am creating an account for myself." },
-                  { key: "family", title: "For a Family Member", desc: "I'm creating an account for my parent, relative, or someone I care for." },
+                  { key: "self", title: "For Myself", desc: "I am creating an account for myself.", icon: "self" },
+                  { key: "family", title: "For a Family Member", desc: "I'm creating an account for my parent, relative, or someone I care for.", icon: "family" },
                 ] as const).map((opt) => (
                   <button
                     key={opt.key}
                     type="button"
                     onClick={() => setAccountType(opt.key)}
-                    className="rounded-xl border-2 p-4 text-left transition"
+                    className="flex flex-col items-center rounded-xl border-2 p-4 text-center transition"
                     style={{ borderColor: accountType === opt.key ? "#814398" : "#e5e7eb", backgroundColor: accountType === opt.key ? "#F3E8FF" : "#fff" }}
                   >
+                    <span
+                      className="mb-2 flex h-9 w-9 items-center justify-center rounded-full"
+                      style={{ backgroundColor: accountType === opt.key ? "#814398" : "#e5e7eb", color: accountType === opt.key ? "#fff" : "#6b7280" }}
+                    >
+                      {opt.icon === "self" ? (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 12a4 4 0 100-8 4 4 0 000 8zM4 20c0-3.5 3.5-6 8-6s8 2.5 8 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                      ) : (
+                        <svg width="18" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM3 20c0-3 2.7-5 6-5s6 2 6 5M16 8.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM14.5 15c2.8.3 4.5 2 4.5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                      )}
+                    </span>
                     <div className="text-sm font-semibold" style={{ color: accountType === opt.key ? "#814398" : "#1f2937" }}>{opt.title}</div>
                     <div className="mt-1 text-xs text-gray-500">{opt.desc}</div>
                   </button>
@@ -330,7 +340,12 @@ export default function LoginModal({ open, initialMode, onClose }: LoginModalPro
               </p>
 
               <form onSubmit={handleProfileSubmit} className="mt-6 flex flex-col gap-4">
-                {accountType === "family" && <div className="text-xs font-semibold uppercase tracking-wide text-gray-400">Your Information</div>}
+                {accountType === "family" && (
+                  <div className="flex items-center gap-2 border-b border-gray-200 pb-2">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: "#814398" }}>01</span>
+                    <span className="text-sm font-semibold" style={{ color: "#814398" }}>Your Information</span>
+                  </div>
+                )}
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
@@ -370,7 +385,10 @@ export default function LoginModal({ open, initialMode, onClose }: LoginModalPro
 
                 {accountType === "family" && (
                   <>
-                    <div className="mt-2 text-xs font-semibold uppercase tracking-wide text-gray-400">Senior Information</div>
+                    <div className="mt-2 flex items-center gap-2 border-b border-gray-200 pb-2">
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: "#814398" }}>02</span>
+                      <span className="text-sm font-semibold" style={{ color: "#814398" }}>Senior Information</span>
+                    </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className={labelCls}>First Name</label>
@@ -462,10 +480,23 @@ export default function LoginModal({ open, initialMode, onClose }: LoginModalPro
               </button>
               <h2 className="text-xl font-bold" style={{ color: "#814398" }}>Verify your mobile number</h2>
               <p className="mt-1 text-sm text-gray-600">
-                We&apos;ve sent a 6-digit OTP to {COUNTRY_CODES[countryCode]} {phone}.
+                We have sent 6 digit OTP for the number for verification. Please enter the OTP to validate.
               </p>
 
-              <div className="mt-6 flex gap-2">
+              <div className="mt-6 flex items-center justify-between">
+                <span className="text-sm font-medium text-gray-800">Enter the OTP</span>
+                <button
+                  type="button"
+                  onClick={() => setStep(mode === "login" ? "login-phone" : "signup-profile")}
+                  className="flex items-center gap-1 text-xs font-medium"
+                  style={{ color: "#814398" }}
+                >
+                  Sent to {COUNTRY_CODES[countryCode]} {phone}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </button>
+              </div>
+
+              <div className="mt-2 flex gap-2">
                 {otp.map((digit, i) => (
                   <input
                     key={i}
