@@ -5,7 +5,6 @@ import { useAuth, ProfileInput } from "./AuthProvider";
 
 interface LoginModalProps {
   open: boolean;
-  initialMode: "login" | "signup";
   onClose: () => void;
 }
 
@@ -32,9 +31,9 @@ function emptyRelative() {
   return { firstName: "", lastName: "", phone: "", email: "", relationship: "" };
 }
 
-export default function LoginModal({ open, initialMode, onClose }: LoginModalProps) {
-  const { requestOtp, verifyOtp } = useAuth();
-  const [mode, setMode] = useState<"login" | "signup">(initialMode);
+export default function LoginModal({ open, onClose }: LoginModalProps) {
+  const { checkUser, requestOtp, verifyOtp } = useAuth();
+  const [mode, setMode] = useState<"login" | "signup">("login");
   const [step, setStep] = useState<Step>("login-phone");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -81,11 +80,11 @@ export default function LoginModal({ open, initialMode, onClose }: LoginModalPro
 
   useEffect(() => {
     if (open) {
-      setMode(initialMode);
-      setStep(initialMode === "login" ? "login-phone" : "signup-choice");
+      setMode("login");
+      setStep("login-phone");
       setError("");
     }
-  }, [open, initialMode]);
+  }, [open]);
 
   if (!open) return null;
 
@@ -110,12 +109,6 @@ export default function LoginModal({ open, initialMode, onClose }: LoginModalPro
     onClose();
   };
 
-  const switchMode = (next: "login" | "signup") => {
-    setMode(next);
-    setStep(next === "login" ? "login-phone" : "signup-choice");
-    setError("");
-  };
-
   const phoneValid = () => phone.length >= 4;
 
   const handleGetOtp = async (e: React.FormEvent) => {
@@ -123,10 +116,22 @@ export default function LoginModal({ open, initialMode, onClose }: LoginModalPro
     if (!phoneValid()) return setError("Enter a valid mobile number.");
     setError("");
     setSubmitting(true);
+    const check = await checkUser(COUNTRY_CODES[countryCode], phone);
+    if (!check.ok) {
+      setSubmitting(false);
+      return setError(check.error);
+    }
+    if (check.isNewUser) {
+      setSubmitting(false);
+      setMode("signup");
+      setStep("signup-choice");
+      return;
+    }
     const result = await requestOtp(COUNTRY_CODES[countryCode], phone);
     setSubmitting(false);
     if (!result.ok) return setError(result.error);
     setOtp(Array(6).fill(""));
+    setMode("login");
     setStep("login-otp");
   };
 
@@ -241,23 +246,6 @@ export default function LoginModal({ open, initialMode, onClose }: LoginModalPro
         </div>
 
         <div className="flex w-full flex-col overflow-y-auto px-5 pb-6 pt-6 sm:max-h-[85vh] sm:w-[55%] sm:px-10 sm:py-12">
-          {(step === "login-phone" || step === "signup-choice") && (
-            <div className="mb-6 flex gap-6 border-b border-gray-200">
-              {(["login", "signup"] as const).map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  onClick={() => switchMode(m)}
-                  className="relative pb-3 text-sm font-semibold transition"
-                  style={{ color: mode === m ? "#814398" : "#9ca3af" }}
-                >
-                  {m === "login" ? "Login" : "Sign Up"}
-                  {mode === m && <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full" style={{ backgroundColor: "#814398" }} />}
-                </button>
-              ))}
-            </div>
-          )}
-
           {step === "login-phone" && (
             <>
               <h2 className="text-xl font-bold" style={{ color: "#814398" }}>Welcome to Saksham Senior</h2>
@@ -289,6 +277,7 @@ export default function LoginModal({ open, initialMode, onClose }: LoginModalPro
 
           {step === "signup-choice" && (
             <>
+              <button type="button" onClick={() => setStep("login-phone")} className="mb-3 text-left text-xs font-medium text-gray-500 hover:text-gray-700">&larr; Go Back</button>
               <h2 className="text-xl font-bold" style={{ color: "#814398" }}>New to Saksham, Create your account</h2>
               <p className="mt-1 text-sm text-gray-600">Who are you creating this account for?</p>
               <div className="mt-6 flex flex-col gap-3 sm:grid sm:grid-cols-2">
@@ -360,12 +349,11 @@ export default function LoginModal({ open, initialMode, onClose }: LoginModalPro
 
                 <div>
                   <label className={labelCls}>Phone number</label>
-                  <div className="flex rounded-lg border border-gray-300">
-                    <select value={countryCode} onChange={(e) => setCountryCode(e.target.value)} className="rounded-l-lg border-0 border-r border-gray-300 bg-white px-3 py-3 text-sm focus:outline-none">
-                      {Object.keys(COUNTRY_CODES).map((cc) => <option key={cc} value={cc}>{COUNTRY_CODES[cc]}</option>)}
-                    </select>
-                    <input type="tel" inputMode="numeric" value={phone} onChange={(e) => setPhone(numericOnly(e.target.value).slice(0, PHONE_MAX_LEN[countryCode] ?? 15))} placeholder="00000 00000" className="w-full rounded-r-lg border-0 bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none" />
+                  <div className="flex rounded-lg border border-gray-300 bg-gray-50">
+                    <span className="flex items-center rounded-l-lg border-r border-gray-300 px-3 py-3 text-sm text-gray-500">{COUNTRY_CODES[countryCode]}</span>
+                    <input type="tel" value={phone} readOnly disabled className="w-full rounded-r-lg border-0 bg-gray-50 px-4 py-3 text-sm text-gray-500 focus:outline-none" />
                   </div>
+                  <p className="mt-1 text-xs text-gray-400">Verified in the previous step.</p>
                 </div>
 
                 <div>

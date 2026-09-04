@@ -30,10 +30,12 @@ export interface ProfileInput {
 }
 
 type Result = { ok: true } | { ok: false; error: string };
+type CheckUserResult = { ok: true; isNewUser: boolean } | { ok: false; error: string };
 
 interface AuthContextValue {
   user: AuthUser | null;
   loading: boolean;
+  checkUser: (countryCode: string, phone: string) => Promise<CheckUserResult>;
   requestOtp: (countryCode: string, phone: string) => Promise<Result>;
   verifyOtp: (countryCode: string, phone: string, otp: string, profile?: ProfileInput) => Promise<Result>;
   logout: () => Promise<void>;
@@ -50,7 +52,7 @@ export function useAuth() {
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const authUrl = (path: string) => `${basePath}/api/auth/${path}`;
 
-async function parseJson(res: Response): Promise<{ error?: string; user?: AuthUser }> {
+async function parseJson(res: Response): Promise<{ error?: string; user?: AuthUser; isNewUser?: boolean }> {
   try {
     return await res.json();
   } catch {
@@ -68,6 +70,18 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       .then((data) => setUser(data?.user ?? null))
       .catch(() => setUser(null))
       .finally(() => setLoading(false));
+  }, []);
+
+  const checkUser = useCallback(async (countryCode: string, phone: string) => {
+    const res = await fetch(authUrl("check-user"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ countryCode, phone }),
+    });
+    const data = await parseJson(res);
+    if (!res.ok) return { ok: false as const, error: data.error || "Could not verify this number." };
+    return { ok: true as const, isNewUser: data.isNewUser ?? true };
   }, []);
 
   const requestOtp = useCallback(async (countryCode: string, phone: string) => {
@@ -104,7 +118,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, requestOtp, verifyOtp, logout }}>
+    <AuthContext.Provider value={{ user, loading, checkUser, requestOtp, verifyOtp, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -90,7 +90,7 @@ export default function SiteHeader() {
                         </button>
                       </div>
                     ) : (
-                      <button type="button" onClick={() => openLoginModal("login")}
+                      <button type="button" onClick={() => openLoginModal()}
                         style={{marginLeft:"12px", padding:"12px 24px", borderRadius:"999px", backgroundColor:"#814398", color:"#ffffff", fontWeight:600, fontSize:"15px", border:"none", cursor:"pointer"}}>
                         Login
                       </button>
@@ -157,7 +157,7 @@ export default function SiteHeader() {
                     Logout ({user.name})
                   </button>
                 ) : (
-                  <button type="button" onClick={() => { setMenuOpen(false); openLoginModal("login"); }}
+                  <button type="button" onClick={() => { setMenuOpen(false); openLoginModal(); }}
                     style={{padding:"12px 28px", borderRadius:"999px", backgroundColor:"#814398", color:"#ffffff", border:"none", fontWeight:600, fontSize:"15px", cursor:"pointer"}}>
                     Login
                   </button>

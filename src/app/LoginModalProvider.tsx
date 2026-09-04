@@ -3,10 +3,8 @@
 import { createContext, useContext, useState } from "react";
 import LoginModal from "./LoginModal";
 
-type AuthModalMode = "login" | "signup";
-
 interface LoginModalContextValue {
-  openLoginModal: (mode?: AuthModalMode) => void;
+  openLoginModal: () => void;
   closeLoginModal: () => void;
 }
 
@@ -20,20 +18,16 @@ export function useLoginModal() {
 
 export default function LoginModalProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState<AuthModalMode>("login");
 
   return (
     <LoginModalContext.Provider
       value={{
-        openLoginModal: (m = "login") => {
-          setMode(m);
-          setOpen(true);
-        },
+        openLoginModal: () => setOpen(true),
         closeLoginModal: () => setOpen(false),
       }}
     >
       {children}
-      <LoginModal open={open} initialMode={mode} onClose={() => setOpen(false)} />
+      <LoginModal open={open} onClose={() => setOpen(false)} />
     </LoginModalContext.Provider>
   );
 }

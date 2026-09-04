@@ -24,7 +24,7 @@ export default function DashboardPage() {
         <p className="text-sm text-gray-600">You need an account to view the dashboard.</p>
         <button
           type="button"
-          onClick={() => openLoginModal("login")}
+          onClick={() => openLoginModal()}
           style={{ color: "#ffffff" }}
           className="rounded-full bg-purple-600 px-8 py-3 text-sm font-semibold shadow-md transition hover:bg-purple-700"
         >
