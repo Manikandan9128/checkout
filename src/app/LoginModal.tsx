@@ -233,7 +233,7 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
           </svg>
         </button>
 
-        <div className="relative h-40 w-full shrink-0 overflow-hidden sm:h-auto sm:w-[45%]">
+        <div className="flex h-40 w-full shrink-0 items-center justify-center p-3 sm:h-auto sm:w-[42%] sm:p-5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? "/onboard"}/login-popup-portrait.png`}
