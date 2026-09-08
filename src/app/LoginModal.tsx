@@ -226,22 +226,19 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
           type="button"
           aria-label="Close"
           onClick={handleClose}
-          className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-gray-700 shadow-sm transition hover:bg-gray-100 sm:right-6 sm:top-6"
+          className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full text-gray-700 transition hover:text-gray-900 sm:right-6 sm:top-6"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
 
-        <div
-          className="relative h-40 w-full shrink-0 sm:h-auto sm:w-[45%]"
-          style={{ background: "linear-gradient(135deg, #814398 0%, #C4A8D4 100%)" }}
-        >
+        <div className="relative h-40 w-full shrink-0 overflow-hidden sm:h-auto sm:w-[45%]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://cdn.prod.website-files.com/69df9a13ad765128599ea0d4/69df9a13ad765128599ea0da_Saksham%20Senior%20Logo.svg"
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? "/onboard"}/login-popup-portrait.png`}
             alt="Saksham Senior"
-            className="absolute left-6 top-6 h-8 w-auto brightness-0 invert sm:left-8 sm:top-8"
+            className="h-full w-full object-cover"
           />
         </div>
 
